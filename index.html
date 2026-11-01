@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Medições - Condomínio</title>
-    <!-- Tailwind CSS para design moderno e responsivo -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome para ícones -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
@@ -202,70 +204,37 @@
         <p>Sistema de Controle de Medições Diárias do Condomínio • Atualizações às 23:00</p>
     </footer>
 
-    <!-- JavaScript Application Logic -->
+    <!-- JavaScript Application Logic com Supabase -->
     <script>
-        const STORAGE_KEY = 'condominio_medicoes_v1';
-
-        const dadosIniciais = [
-            { data: '2026-10-01', agua: 78268.42, gas: 4196.87, enel: 107332, solar03: 95434, solar55: 45822, gerador: 25 },
-            { data: '2026-10-02', agua: 78302.79, gas: 4196.87, enel: 107388, solar03: 95526, solar55: 45829, gerador: 25 },
-            { data: '2026-10-03', agua: 78332.60, gas: 4196.87, enel: 107449, solar03: 95609, solar55: 45834, gerador: 25 },
-            { data: '2026-10-04', agua: 78354.00, gas: 4196.87, enel: 107497, solar03: 95660, solar55: 45934, gerador: 25 },
-            { data: '2026-10-05', agua: 78383.20, gas: 4196.87, enel: 107560, solar03: 95736, solar55: 46033, gerador: 15 },
-            { data: '2026-10-06', agua: 78418.55, gas: 4196.87, enel: 107615, solar03: 95814, solar55: 46106, gerador: 15 },
-            { data: '2026-10-07', agua: 78451.45, gas: 4196.87, enel: 107678, solar03: 95877, solar55: 46201, gerador: 15 },
-            { data: '2026-10-08', agua: 78490.77, gas: 4196.87, enel: 107741, solar03: 95960, solar55: 46248, gerador: 15 },
-            { data: '2026-10-09', agua: 78521.61, gas: 4196.87, enel: 107793, solar03: 96014, solar55: 46341, gerador: 77 },
-            { data: '2026-10-10', agua: 78542.35, gas: 4196.87, enel: 107911, solar03: 96056, solar55: 46452, gerador: 77 },
-            { data: '2026-10-11', agua: 78550.07, gas: 4196.87, enel: 107962, solar03: 96099, solar55: 46603, gerador: 77 },
-            { data: '2026-10-12', agua: 78580.07, gas: 4196.87, enel: 108018, solar03: 96155, solar55: 46641, gerador: 77 },
-            { data: '2026-10-13', agua: 78616.18, gas: 4196.87, enel: 108082, solar03: 96223, solar55: 46762, gerador: 77 },
-            { data: '2026-10-14', agua: 78651.03, gas: 4196.87, enel: 108147, solar03: 96282, solar55: 46839, gerador: 77 },
-            { data: '2026-10-15', agua: 78682.89, gas: 4212.85, enel: 108219, solar03: 96353, solar55: 46900, gerador: 77 },
-            { data: '2026-10-16', agua: 78711.39, gas: 4214.17, enel: 108287, solar03: 96420, solar55: 46936, gerador: 77 },
-            { data: '2026-10-17', agua: 78737.33, gas: 4236.72, enel: 108431, solar03: 96480, solar55: 47018, gerador: 77 },
-            { data: '2026-10-18', agua: 78756.75, gas: 4236.72, enel: 108475, solar03: 96530, solar55: 47086, gerador: 77 },
-            { data: '2026-10-19', agua: 78785.90, gas: 4236.72, enel: 108532, solar03: 96617, solar55: 47094, gerador: 77 },
-            { data: '2026-10-20', agua: 78821.18, gas: 4236.72, enel: 108584, solar03: 96698, solar55: 47109, gerador: 77 },
-            { data: '2026-10-21', agua: 78856.20, gas: 4236.72, enel: 108635, solar03: 96779, solar55: 47119, gerador: 77 },
-            { data: '2026-10-22', agua: 78894.81, gas: 4236.72, enel: 108692, solar03: 96871, solar55: 47130, gerador: 77 },
-            { data: '2026-10-23', agua: 78927.52, gas: 4236.72, enel: 108749, solar03: 96958, solar55: 47145, gerador: 77 },
-            { data: '2026-10-24', agua: 78956.29, gas: 4236.72, enel: 108800, solar03: 97013, solar55: 47283, gerador: 77 },
-            { data: '2026-10-25', agua: 78980.70, gas: 4236.72, enel: 108854, solar03: 97082, solar55: 47298, gerador: 77 },
-            { data: '2026-10-26', agua: 79018.14, gas: 4236.72, enel: 108909, solar03: 97163, solar55: 47327, gerador: 77 },
-            { data: '2026-10-27', agua: 79048.54, gas: 4236.72, enel: 108953, solar03: 97234, solar55: 47353, gerador: 77 },
-            { data: '2026-10-28', agua: 79085.75, gas: 4237.75, enel: 109015, solar03: 97308, solar55: 47388, gerador: 77 },
-            { data: '2026-10-29', agua: 79112.56, gas: 4237.75, enel: 109061, solar03: 97361, solar55: 47457, gerador: 65 },
-            { data: '2026-10-30', agua: 79139.77, gas: 4237.75, enel: 109116, solar03: 97433, solar55: 47482, gerador: 65 },
-            { data: '2026-10-31', agua: 79145.77, gas: 4237.75, enel: 109170, solar03: 97500, solar55: 47520, gerador: 65 }
-        ];
+        // Configuração do Supabase com suas chaves fornecidas
+        const SUPABASE_URL = 'https://ehgzjfwleqqytwloarkd.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVoZ3pqZndsZXFxeXR3bG9hcmtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MTY2MjcsImV4cCI6MjEwODk5MjYyN30.dY64SX6f0udLSr_3P79V45oA0r5d4fcumVzwi8xO67U';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let medicoes = [];
 
-        window.onload = function() {
-            carregarDados();
-            renderizarTabela();
-            atualizarResumoCards();
+        window.onload = async function() {
+            await carregarDados();
             document.getElementById('dataLeitura').valueAsDate = new Date();
         };
 
-        function carregarDados() {
-            const salvo = localStorage.getItem(STORAGE_KEY);
-            if (salvo) {
-                try {
-                    medicoes = JSON.parse(salvo);
-                } catch (e) {
-                    medicoes = dadosIniciais;
-                }
-            } else {
-                medicoes = dadosIniciais;
-                salvarLocalStorage();
-            }
-            medicoes.sort((a, b) => new Date(a.data) - new Date(b.data));
-        }
+        async function carregarDados() {
+            try {
+                const { data, error } = await supabase
+                    .from('medicoes')
+                    .select('*')
+                    .order('data', { ascending: true });
 
-        function salvarLocalStorage() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(medicoes));
+                if (error) throw error;
+
+                medicoes = data || [];
+                renderizarTabela();
+                atualizarResumoCards();
+            } catch (err) {
+                console.error("Erro ao carregar dados do Supabase:", err);
+                mostrarToast('Erro ao carregar dados da nuvem!', 'erro');
+            }
         }
 
         function formatarDataBR(dataStr) {
@@ -347,7 +316,7 @@
                         <button onclick="editarLeitura(${index})" class="text-blue-600 hover:text-blue-800 p-1.5 transition" title="Editar">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
-                        <button onclick="excluirLeitura(${index})" class="text-rose-600 hover:text-rose-800 p-1.5 transition" title="Excluir">
+                        <button onclick="excluirLeitura('${item.id}')" class="text-rose-600 hover:text-rose-800 p-1.5 transition" title="Excluir">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -429,7 +398,7 @@
             document.getElementById('modalLeitura').classList.remove('hidden');
         }
 
-        function salvarLeitura(event) {
+        async function salvarLeitura(event) {
             event.preventDefault();
             const index = parseInt(document.getElementById('editIndex').value);
             
@@ -444,54 +413,74 @@
                 gerador: parseFloat(document.getElementById('geradorLeitura').value)
             };
 
-            if (index === -1) {
-                const existe = medicoes.find(m => m.data === novaData);
-                if (existe) {
-                    mostrarToast('Já existe uma medição cadastrada para esta data!', 'erro');
-                    return;
+            try {
+                if (index === -1) {
+                    const { error } = await supabase
+                        .from('medicoes')
+                        .insert([novaLeitura]);
+
+                    if (error) throw error;
+                    mostrarToast('Medição cadastrada com sucesso!');
+                } else {
+                    const itemEdicao = medicoes[index];
+                    const { error } = await supabase
+                        .from('medicoes')
+                        .update(novaLeitura)
+                        .eq('id', itemEdicao.id);
+
+                    if (error) throw error;
+                    mostrarToast('Medição atualizada com sucesso!');
                 }
-                medicoes.push(novaLeitura);
-                mostrarToast('Medição cadastrada com sucesso!');
-            } else {
-                medicoes[index] = novaLeitura;
-                mostrarToast('Medição atualizada com sucesso!');
+
+                await carregarDados();
+                fecharModal();
+            } catch (err) {
+                console.error("Erro ao salvar no Supabase:", err);
+                mostrarToast('Erro ao salvar no banco de dados!', 'erro');
             }
-
-            medicoes.sort((a, b) => new Date(a.data) - new Date(b.data));
-
-            salvarLocalStorage();
-            renderizarTabela();
-            atualizarResumoCards();
-            fecharModal();
         }
 
-        function excluirLeitura(index) {
+        async function excluirLeitura(id) {
             if (confirm('Tem certeza que deseja excluir esta medição?')) {
-                medicoes.splice(index, 1);
-                salvarLocalStorage();
-                renderizarTabela();
-                atualizarResumoCards();
-                mostrarToast('Medição excluída com sucesso!');
+                try {
+                    const { error } = await supabase
+                        .from('medicoes')
+                        .delete()
+                        .eq('id', id);
+
+                    if (error) throw error;
+
+                    mostrarToast('Medição excluída com sucesso!');
+                    await carregarDados();
+                } catch (err) {
+                    console.error("Erro ao excluir do Supabase:", err);
+                    mostrarToast('Erro ao excluir medição!', 'erro');
+                }
             }
         }
 
-        function limparDados() {
+        async function limparDados() {
             if (confirm('ATENÇÃO: Deseja realmente apagar todo o histórico de medições? Esta ação não pode ser desfeita.')) {
-                medicoes = [];
-                salvarLocalStorage();
-                renderizarTabela();
-                atualizarResumoCards();
-                mostrarToast('Histórico limpo com sucesso!');
+                try {
+                    const { error } = await supabase
+                        .from('medicoes')
+                        .delete()
+                        .neq('id', 0);
+
+                    if (error) throw error;
+
+                    mostrarToast('Histórico limpo com sucesso!');
+                    await carregarDados();
+                } catch (err) {
+                    console.error("Erro ao limpar Supabase:", err);
+                    mostrarToast('Erro ao limpar histórico!', 'erro');
+                }
             }
         }
 
         function filtrarTabela() {
             const filtro = document.getElementById('filtroData').value.trim();
             renderizarTabela(filtro);
-        }
-
-        function gerarmensagemWhatsApp() {
-            // Compatibilidade com a função chamada pelos botões
         }
 
         function gerarMensagemWhatsApp() {
