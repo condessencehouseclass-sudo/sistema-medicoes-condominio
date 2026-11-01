@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-</div>
-</div>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="icone.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Medições - Condomínio</title>
     <!-- Tailwind CSS -->
@@ -61,19 +58,14 @@
             <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h2 class="text-lg font-bold text-slate-900">Histórico de Medições</h2>
-                    <p class="text-xs text-slate-500">Listagem de leituras filtradas por mês e dia</p>
+                    <p class="text-xs text-slate-500">Listagem de todas as leituras e consumos calculados diariamente</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                    <!-- Seletor de Mês (Paginação por Mês) -->
-                    <select id="filtroMes" onchange="renderizarTabela()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <!-- Preenchido via JS -->
-                    </select>
-
-                    <div class="relative w-full sm:w-48">
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <div class="relative w-full sm:w-64">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i class="fa-solid fa-search text-xs"></i>
                         </span>
-                        <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Filtrar dia (ex: 10)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input type="text" id="filtroData" onkeyup="filtrarTabela()" placeholder="Filtrar por data (ex: 31/10)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <button onclick="limparDados()" class="text-rose-600 hover:text-rose-700 text-xs font-medium px-3 py-2 rounded-xl border border-rose-200 hover:bg-rose-50 transition">
                         <i class="fa-solid fa-trash-can mr-1"></i> Limpar Tudo
@@ -215,9 +207,10 @@
     <!-- JavaScript Application Logic -->
     <script>
         const SUPABASE_URL = 'https://ehgzjfwleqqytwloarkd.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVoZ3pqZndsZXFxeXR3bG9hcmtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MTY2MjcsImV4cCI6MjEwODk5MjYyN30.dY64SX6f0udLSr_3P79V45oA0r5d4fcumVzwi8xO67U';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVoZ3pqZndsZXFxeXR3bG9hcmtkI;|&JpYXQiOjE3OTM0MTY2MjcsImV4cCI6MjEwODk5MjYyN30.dY64SX6f0udLSr_3P79V45oA0r5d4fcumVzwi8xO67U'.trim();
         
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Ajuste para evitar duplicação de variáveis globais
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVoZ3pqZndsZXFxeXR3bG9hcmtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MTY2MjcsImV4cCI6MjEwODk5MjYyN30.dY64SX6f0udLSr_3P79V45oA0r5d4fcumVzwi8xO67U');
 
         let medicoes = [];
 
@@ -236,7 +229,6 @@
                 if (error) throw error;
 
                 medicoes = data || [];
-                popularFiltroMeses();
                 renderizarTabela();
                 atualizarResumoCards();
             } catch (err) {
@@ -252,42 +244,6 @@
                 return `${partes[2]}/${partes[1]}/${partes[0]}`;
             }
             return dataStr;
-        }
-
-        function popularFiltroMeses() {
-            const selectMes = document.getElementById('filtroMes');
-            const mesAtualSelecionado = selectMes.value;
-            selectMes.innerHTML = '';
-
-            // Extrair meses únicos disponíveis nas medições (formato "YYYY-MM")
-            const mesesDisponiveis = [...new Set(medicoes.map(item => item.data.substring(0, 7)))];
-            mesesDisponiveis.sort().reverse(); // Mais recente primeiro
-
-            if (mesesDisponiveis.length === 0) {
-                selectMes.innerHTML = '<option value="">Nenhum mês</option>';
-                return;
-            }
-
-            const nomesMeses = {
-                '01': 'Janeiro', '02': 'Fevereiro', '03': 'Março', '04': 'Abril',
-                '05': 'Maio', '06': 'Junho', '07': 'Julho', '08': 'Agosto',
-                '09': 'Setembro', '10': 'Outubro', '11': 'Novembro', '12': 'Dezembro'
-            };
-
-            mesesDisponiveis.forEach(anoMes => {
-                const [ano, mes] = anoMes.split('-');
-                const option = document.createElement('option');
-                option.value = anoMes;
-                option.textContent = `${nomesMeses[mes]} / ${ano}`;
-                selectMes.appendChild(option);
-            });
-
-            // Se o mês anteriormente selecionado ainda existir, mantém a seleção
-            if (mesesDisponiveis.includes(mesAtualSelecionado)) {
-                selectMes.value = mesAtualSelecionado;
-            } else {
-                selectMes.value = mesesDisponiveis[0]; // Padrão para o mais recente
-            }
         }
 
         function formatarNumero(valor, decimais = 2) {
@@ -313,42 +269,20 @@
             }, 3000);
         }
 
-        function renderizarTabela() {
+        function renderizarTabela(filtro = '') {
             const tbody = document.getElementById('tabelaCorpo');
             tbody.innerHTML = '';
 
-            const mesSelecionado = document.getElementById('filtroMes').value;
-            const termoBusca = document.getElementById('filtroData').value.trim().toLowerCase();
-
-            // Filtrar por Mês e por Pesquisa de Dia/Data de forma flexível
-            const medicoesFiltradas = medicoes.filter(item => {
-                const dataIso = item.data.split('T')[0]; // YYYY-MM-DD
-                const dataBr = formatarDataBR(item.data);   // DD/MM/YYYY
-                const [ano, mes, dia] = dataIso.split('-');
-
-                const correspondeMes = mesSelecionado ? dataIso.startsWith(mesSelecionado) : true;
-                
-                if (!correspondeMes) return false;
-
-                if (termoBusca) {
-                    // Permite buscar por dia exato ("10"), data completa ("10/10") ou formato ISO
-                    const buscaDiaExato = dia === termoBusca || Number(dia) === Number(termoBusca);
-                    const buscaTexto = dataBr.toLowerCase().includes(termoBusca) || dataIso.includes(termoBusca);
-                    return buscaDiaExato || buscaTexto;
-                }
-
-                return true;
-            });
-
-            medicoesFiltradas.forEach((item) => {
-                // Encontrar o índice real no array geral para calcular o consumo em relação ao dia anterior
-                const indexReal = medicoes.findIndex(m => m.id === item.id);
+            medicoes.forEach((item, index) => {
                 const dataBR = formatarDataBR(item.data);
+                if (filtro && !dataBR.includes(filtro) && !item.data.includes(filtro)) {
+                    return;
+                }
 
                 let cAgua = '-', cGas = '-', cEnel = '-', cSolar03 = '-', cSolar55 = '-';
 
-                if (indexReal > 0) {
-                    const anterior = medicoes[indexReal - 1];
+                if (index > 0) {
+                    const anterior = medicoes[index - 1];
                     cAgua = Math.max(0, item.agua - anterior.agua);
                     cGas = Math.max(0, item.gas - anterior.gas);
                     cEnel = Math.max(0, item.enel - anterior.enel);
@@ -362,19 +296,19 @@
                     <td class="p-3 text-center font-bold text-slate-900 whitespace-nowrap">${dataBR}</td>
                     
                     <td class="p-3 font-mono">${formatarNumero(item.agua, 2)}</td>
-                    <td class="p-3 font-mono font-bold text-amber-700 bg-amber-50/40">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
+                    <td class="p-3 font-mono font-bold text-amber-700 bg-amber-50/40">${index > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
                     
                     <td class="p-3 font-mono">${formatarNumero(item.gas, 2)}</td>
-                    <td class="p-3 font-mono font-bold text-slate-800 bg-slate-100/60">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
+                    <td class="p-3 font-mono font-bold text-slate-800 bg-slate-100/60">${index > 0 ? formatarNumero(cGas, 2) : '-'}</td>
                     
                     <td class="p-3 font-mono">${formatarNumero(item.enel, 0)}</td>
-                    <td class="p-3 font-mono font-bold text-blue-700 bg-blue-50/40">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
+                    <td class="p-3 font-mono font-bold text-blue-700 bg-blue-50/40">${index > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
                     
                     <td class="p-3 font-mono">${formatarNumero(item.solar03, 0)}</td>
-                    <td class="p-3 font-mono font-bold text-emerald-700 bg-emerald-50/40">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
+                    <td class="p-3 font-mono font-bold text-emerald-700 bg-emerald-50/40">${index > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
                     
                     <td class="p-3 font-mono">${formatarNumero(item.solar55, 0)}</td>
-                    <td class="p-3 font-mono font-bold text-indigo-700 bg-indigo-50/40">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
+                    <td class="p-3 font-mono font-bold text-indigo-700 bg-indigo-50/40">${index > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
                     
                     <td class="p-3 font-mono font-bold text-purple-700 bg-purple-50/40 text-center">${formatarNumero(item.gerador, 0)}%</td>
                     
@@ -543,6 +477,11 @@
                     mostrarToast('Erro ao limpar histórico!', 'erro');
                 }
             }
+        }
+
+        function filtrarTabela() {
+            const filtro = document.getElementById('filtroData').value.trim();
+            renderizarTabela(filtro);
         }
 
         function gerarMensagemWhatsApp() {
