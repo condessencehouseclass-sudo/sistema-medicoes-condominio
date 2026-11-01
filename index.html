@@ -65,7 +65,7 @@
             pointer-events: auto;
         }
 
-        /* Cards Estilo Widget do iOS - Mais vivos no modo claro */
+        /* Cards Estilo Widget do iOS */
         .ios-card {
             border-radius: 28px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 252, 0.9) 100%);
@@ -122,7 +122,7 @@
         </div>
     </header>
 
-    <!-- Sistema de Abas (Navegação Estilo iOS Segmented Control) -->
+    <!-- Sistema de Abas -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex gap-3 w-full">
         <button onclick="alternarAba('medicoes')" id="tabMedicoes" class="ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2">
             <i class="fa-solid fa-table-list"></i> Medições & Histórico
@@ -137,12 +137,10 @@
         
         <!-- ABA 1: MEDIÇÕES -->
         <div id="containerMedicoes" class="space-y-6 ios-motion">
-            <!-- Cards de Resumo Estilo Widgets iOS -->
             <div id="resumoCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
                 <!-- Preenchido via JavaScript -->
             </div>
 
-            <!-- Tabela de Histórico -->
             <div class="ios-card overflow-hidden shadow-xl">
                 <div class="p-6 border-b border-blue-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
@@ -199,12 +197,10 @@
             </div>
         </div>
 
-        <!-- ABA 2: ESTATÍSTICAS & ANÁLISES (Com elementos gráficos e cores vivas) -->
+        <!-- ABA 2: ESTATÍSTICAS & ANÁLISES -->
         <div id="containerEstatisticas" class="hidden space-y-6 ios-motion">
-            <!-- Grid de Indicadores Principais com Barras Gráficas Coloridas -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 
-                <!-- Pico Água -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -217,7 +213,6 @@
                     </div>
                 </div>
 
-                <!-- Pico Gás -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-slate-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -230,7 +225,6 @@
                     </div>
                 </div>
 
-                <!-- Pico ENEL -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -243,7 +237,6 @@
                     </div>
                 </div>
 
-                <!-- Mês Maior Água -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -253,7 +246,6 @@
                     <h3 id="mesMaiorAgua" class="text-xl font-black text-emerald-800 dark:text-emerald-400 mt-2 font-mono">-</h3>
                 </div>
 
-                <!-- Mês Maior ENEL -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -263,7 +255,6 @@
                     <h3 id="mesMaiorEnel" class="text-xl font-black text-indigo-800 dark:text-indigo-400 mt-2 font-mono">-</h3>
                 </div>
 
-                <!-- Total de Registros -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -273,7 +264,6 @@
                     <h3 id="totalRegistros" class="text-xl font-black text-purple-800 dark:text-purple-400 mt-2 font-mono">-</h3>
                 </div>
 
-                <!-- Autonomia do Gerador (Com Gráfico Gráfico Circular/Barra) -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-teal-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -283,7 +273,6 @@
                     <h3 id="autonomiaGerador" class="text-xl font-black text-teal-800 dark:text-teal-400 mt-2 font-mono">-</h3>
                 </div>
 
-                <!-- Total Solar Gerado -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -293,7 +282,6 @@
                     <h3 id="solarGerado" class="text-xl font-black text-emerald-800 dark:text-emerald-400 mt-2 font-mono">-</h3>
                 </div>
 
-                <!-- Média Diária -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
@@ -308,7 +296,7 @@
 
     </main>
 
-    <!-- Toast Estilo Dynamic Island / iOS Notification -->
+    <!-- Toast Estilo Dynamic Island -->
     <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 translate-y-20 opacity-0 pointer-events-none">
         <div class="ios-glass px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 border border-white/20">
             <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
@@ -339,27 +327,29 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
                     <div class="p-3.5 bg-amber-50/80 dark:bg-amber-950/20 rounded-2xl border border-amber-200/70 dark:border-amber-900/40">
                         <label class="block text-xs font-bold text-amber-900 dark:text-amber-400 mb-1">Água (Chave 01)</label>
-                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm">
+                        <!-- Adicionado text-slate-950 dark:text-white para garantir escrita branca no dark mode -->
+                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm">
                     </div>
                     <div class="p-3.5 bg-slate-100/80 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60">
                         <label class="block text-xs font-bold text-slate-900 dark:text-slate-200 mb-1">Gás (Chave 14)</label>
-                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-500 focus:outline-none shadow-sm">
+                        <!-- CORREÇÃO APLICADA AQUI: text-slate-950 dark:text-white -->
+                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-slate-500 focus:outline-none shadow-sm">
                     </div>
                     <div class="p-3.5 bg-blue-50/80 dark:bg-blue-950/20 rounded-2xl border border-blue-200/70 dark:border-blue-900/40">
                         <label class="block text-xs font-bold text-blue-900 dark:text-blue-400 mb-1">ENEL (Chave 115)</label>
-                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
+                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/40 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
                     </div>
                     <div class="p-3.5 bg-emerald-50/80 dark:bg-emerald-950/20 rounded-2xl border border-emerald-200/70 dark:border-emerald-900/40">
                         <label class="block text-xs font-bold text-emerald-900 dark:text-emerald-400 mb-1">Solar 03 (Chave 06)</label>
-                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm">
+                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm">
                     </div>
                     <div class="p-3.5 bg-indigo-50/80 dark:bg-indigo-950/20 rounded-2xl border border-indigo-200/70 dark:border-indigo-900/40">
                         <label class="block text-xs font-bold text-indigo-900 dark:text-indigo-400 mb-1">Solar 55 (Chave 06)</label>
-                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
+                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/40 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
                     </div>
                     <div class="p-3.5 bg-purple-50/80 dark:bg-purple-950/20 rounded-2xl border border-purple-200/70 dark:border-purple-900/40">
                         <label class="block text-xs font-bold text-purple-900 dark:text-purple-400 mb-1">Gerador (% Tanque)</label>
-                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
+                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/40 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
                     </div>
                 </div>
 
@@ -634,35 +624,35 @@
             let cSolar55 = penultimo ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
 
             container.innerHTML = `
-                <div class="ios-card p-4 shadow-md border-amber-200/80 bg-gradient-to-br from-amber-50/90 to-amber-100/40">
-                    <p class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-droplet text-amber-500"></i> Água (Último)</p>
-                    <h4 class="text-lg font-black text-amber-900 mt-1 font-mono">${formatarNumero(cAgua, 2)} L</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
+                <div class="ios-card p-4 shadow-md border-amber-200/85 bg-gradient-to-br from-amber-50/95 to-amber-100/50">
+                    <p class="text-[10px] font-extrabold text-amber-800 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-droplet text-amber-500"></i> Água (Último)</p>
+                    <h4 class="text-lg font-black text-amber-950 mt-1 font-mono">${formatarNumero(cAgua, 2)} L</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-slate-200 bg-gradient-to-br from-slate-100/90 to-slate-200/40">
-                    <p class="text-[10px] font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire text-slate-500"></i> Gás (Último)</p>
-                    <h4 class="text-lg font-black text-slate-900 mt-1 font-mono">${formatarNumero(cGas, 2)} m³</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
+                <div class="ios-card p-4 shadow-md border-slate-200 bg-gradient-to-br from-slate-100/95 to-slate-200/50">
+                    <p class="text-[10px] font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire text-slate-600"></i> Gás (Último)</p>
+                    <h4 class="text-lg font-black text-slate-950 dark:text-slate-100 mt-1 font-mono">${formatarNumero(cGas, 2)} m³</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-blue-200/80 bg-gradient-to-br from-blue-50/90 to-blue-100/40">
-                    <p class="text-[10px] font-extrabold text-blue-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-bolt text-blue-500"></i> ENEL (Último)</p>
-                    <h4 class="text-lg font-black text-blue-900 mt-1 font-mono">${formatarNumero(cEnel, 0)} kWh</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-blue-200/85 bg-gradient-to-br from-blue-50/95 to-blue-100/50">
+                    <p class="text-[10px] font-extrabold text-blue-800 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-bolt text-blue-500"></i> ENEL (Último)</p>
+                    <h4 class="text-lg font-black text-blue-950 mt-1 font-mono">${formatarNumero(cEnel, 0)} kWh</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-emerald-200/80 bg-gradient-to-br from-emerald-50/90 to-emerald-100/40">
-                    <p class="text-[10px] font-extrabold text-emerald-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-emerald-500"></i> Solar 03</p>
-                    <h4 class="text-lg font-black text-emerald-900 mt-1 font-mono">${formatarNumero(cSolar03, 0)}</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-emerald-200/85 bg-gradient-to-br from-emerald-50/95 to-emerald-100/50">
+                    <p class="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-emerald-500"></i> Solar 03</p>
+                    <h4 class="text-lg font-black text-emerald-950 mt-1 font-mono">${formatarNumero(cSolar03, 0)}</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-indigo-200/80 bg-gradient-to-br from-indigo-50/90 to-indigo-100/40">
-                    <p class="text-[10px] font-extrabold text-indigo-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-indigo-500"></i> Solar 55</p>
-                    <h4 class="text-lg font-black text-indigo-900 mt-1 font-mono">${formatarNumero(cSolar55, 0)}</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-indigo-200/85 bg-gradient-to-br from-indigo-50/95 to-indigo-100/50">
+                    <p class="text-[10px] font-extrabold text-indigo-800 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-indigo-500"></i> Solar 55</p>
+                    <h4 class="text-lg font-black text-indigo-950 mt-1 font-mono">${formatarNumero(cSolar55, 0)}</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-purple-200/80 bg-gradient-to-br from-purple-50/90 to-purple-100/40">
-                    <p class="text-[10px] font-extrabold text-purple-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-gas-pump text-purple-500"></i> Gerador</p>
-                    <h4 class="text-lg font-black text-purple-900 mt-1 font-mono">${ultimo.gerador}% Tanque</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Data: ${formatarDataBR(ultimo.data)}</p>
+                <div class="ios-card p-4 shadow-md border-purple-200/85 bg-gradient-to-br from-purple-50/95 to-purple-100/50">
+                    <p class="text-[10px] font-extrabold text-purple-800 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-gas-pump text-purple-500"></i> Gerador</p>
+                    <h4 class="text-lg font-black text-purple-950 mt-1 font-mono">${ultimo.gerador}% Tanque</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Data: ${formatarDataBR(ultimo.data)}</p>
                 </div>
             `;
         }
@@ -702,7 +692,6 @@
                 }
             }
 
-            // Encontrar meses de maior consumo
             let mesMaxAgua = '-', maxAguaVal = 0;
             for (let [mes, val] of Object.entries(consumoMensalAgua)) {
                 if (val > maxAguaVal) { maxAguaVal = val; mesMaxAgua = mes; }
@@ -733,7 +722,6 @@
             document.getElementById('autonomiaGerador').innerText = `${ultimo.gerador}% (Aprox. ${(ultimo.gerador * 1.5).toFixed(0)}h)`;
             document.getElementById('solarGerado').innerText = `${formatarNumero(solarGeradoTotal, 0)} kWh`;
 
-            // Média diária geral
             let somaAgua = 0, somaEnel = 0, diasContados = medicoes.length - 1;
             if (diasContados > 0) {
                 for(let i=1; i<medicoes.length; i++) {
