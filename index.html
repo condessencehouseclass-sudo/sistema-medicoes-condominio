@@ -206,7 +206,6 @@
 
     <!-- JavaScript Application Logic com Supabase -->
     <script>
-        // Configuração do Supabase com suas chaves fornecidas
         const SUPABASE_URL = 'https://ehgzjfwleqqytwloarkd.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVoZ3pqZndsZXFxeXR3bG9hcmtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0MTY2MjcsImV4cCI6MjEwODk5MjYyN30.dY64SX6f0udLSr_3P79V45oA0r5d4fcumVzwi8xO67U';
         
@@ -316,7 +315,7 @@
                         <button onclick="editarLeitura(${index})" class="text-blue-600 hover:text-blue-800 p-1.5 transition" title="Editar">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
-                        <button onclick="excluirLeitura('${item.id}')" class="text-rose-600 hover:text-rose-800 p-1.5 transition" title="Excluir">
+                        <button onclick="excluirLeitura(${item.id})" class="text-rose-600 hover:text-rose-800 p-1.5 transition" title="Excluir">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -465,7 +464,7 @@
                     const { error } = await supabase
                         .from('medicoes')
                         .delete()
-                        .neq('id', 0);
+                        .not('id', 'is', null);
 
                     if (error) throw error;
 
