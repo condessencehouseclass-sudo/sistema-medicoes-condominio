@@ -34,10 +34,10 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
         .dark .ios-glass {
-            background: rgba(22, 27, 34, 0.85);
+            background: rgba(22, 27, 34, 0.7);
             backdrop-filter: blur(40px) saturate(220%);
             -webkit-backdrop-filter: blur(40px) saturate(220%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         /* Transições estilo iOS */
@@ -65,7 +65,7 @@
             pointer-events: auto;
         }
 
-        /* Cards Estilo Widget do iOS */
+        /* Cards Estilo Widget do iOS - Mais vivos no modo claro */
         .ios-card {
             border-radius: 28px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 252, 0.9) 100%);
@@ -75,9 +75,9 @@
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
         }
         .dark .ios-card {
-            background: rgba(30, 38, 52, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 35, 45, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         .ios-card:hover {
             transform: translateY(-3px);
@@ -93,10 +93,10 @@
         }
     </style>
 </head>
-<body class="bg-[#EAEFF5] dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
+<body class="bg-[#EAEFF5] dark:bg-[#000000] text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
 
     <!-- Header Glassmorphism Estilo iOS -->
-    <header class="sticky top-0 z-40 ios-glass border-b border-blue-200/50 dark:border-slate-700/60 shadow-md">
+    <header class="sticky top-0 z-40 ios-glass border-b border-blue-200/50 dark:border-slate-800/60 shadow-md">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3.5">
                 <div class="w-12 h-12 bg-gradient-to-tr from-blue-600 to-indigo-500 text-white rounded-[20px] flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/30">
@@ -109,7 +109,7 @@
             </div>
             
             <div class="flex items-center gap-3 w-full sm:w-auto">
-                <button type="button" onclick="alternarModoNoturno()" class="ios-pill w-11 h-11 bg-white dark:bg-slate-800 text-amber-500 dark:text-yellow-300 flex items-center justify-center shadow-md border border-slate-200 dark:border-slate-700 transition" title="Alternar Modo Noturno">
+                <button type="button" onclick="alternarModoNoturno()" class="ios-pill w-11 h-11 bg-white dark:bg-slate-800 text-amber-500 dark:text-yellow-400 flex items-center justify-center shadow-md border border-slate-200 dark:border-slate-700 transition" title="Alternar Modo Noturno">
                     <i id="iconeModoNoturno" class="fa-solid fa-moon text-sm"></i>
                 </button>
                 <button type="button" onclick="abrirModalNovaLeitura()" class="flex-1 sm:flex-initial ios-pill bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
@@ -122,12 +122,12 @@
         </div>
     </header>
 
-    <!-- Sistema de Abas -->
+    <!-- Sistema de Abas (Navegação Estilo iOS Segmented Control) -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex gap-3 w-full">
         <button onclick="alternarAba('medicoes')" id="tabMedicoes" class="ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2">
             <i class="fa-solid fa-table-list"></i> Medições & Histórico
         </button>
-        <button onclick="alternarAba('estatisticas')" id="tabEstatisticas" class="ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <button onclick="alternarAba('estatisticas')" id="tabEstatisticas" class="ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-chart-pie"></i> Análises & Estatísticas
         </button>
     </div>
@@ -137,19 +137,21 @@
         
         <!-- ABA 1: MEDIÇÕES -->
         <div id="containerMedicoes" class="space-y-6 ios-motion">
+            <!-- Cards de Resumo Estilo Widgets iOS -->
             <div id="resumoCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
                 <!-- Preenchido via JavaScript -->
             </div>
 
+            <!-- Tabela de Histórico -->
             <div class="ios-card overflow-hidden shadow-xl">
-                <div class="p-6 border-b border-blue-100 dark:border-slate-700/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="p-6 border-b border-blue-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Histórico de Medições</h2>
-                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300">Listagem filtrada por mês e busca por dia</p>
+                        <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Listagem filtrada por mês e busca por dia</p>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                        <select id="filtroMes" onchange="renderizarTabela()" class="px-4 py-2.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <select id="filtroMes" onchange="renderizarTabela()" class="px-4 py-2.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <!-- Preenchido via JS -->
                         </select>
 
@@ -157,7 +159,7 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                                 <i class="fa-solid fa-magnifying-glass text-xs"></i>
                             </span>
-                            <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Buscar dia..." class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Buscar dia..." class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-200 dark:border-slate-700 shadow-sm">
                         </div>
                     </div>
                 </div>
@@ -165,31 +167,31 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-blue-50/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 uppercase tracking-wider font-bold text-[10px] border-b border-blue-100 dark:border-slate-700">
+                            <tr class="bg-blue-50/70 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-bold text-[10px] border-b border-blue-100 dark:border-slate-800">
                                 <th class="p-3.5 text-center" rowspan="2">Data</th>
-                                <th class="p-3.5 text-center bg-amber-100/60 dark:bg-amber-950/50 text-amber-900 dark:text-amber-300" colspan="2">Água (01)</th>
-                                <th class="p-3.5 text-center bg-slate-200/60 dark:bg-slate-800 text-slate-900 dark:text-slate-200" colspan="2">Gás (14)</th>
-                                <th class="p-3.5 text-center bg-blue-100/60 dark:bg-blue-950/50 text-blue-900 dark:text-blue-300" colspan="2">ENEL (115)</th>
-                                <th class="p-3.5 text-center bg-emerald-100/60 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-300" colspan="2">Solar 03 (06)</th>
-                                <th class="p-3.5 text-center bg-indigo-100/60 dark:bg-indigo-950/50 text-indigo-900 dark:text-indigo-300" colspan="2">Solar 55 (06)</th>
-                                <th class="p-3.5 text-center bg-purple-100/60 dark:bg-purple-950/50 text-purple-900 dark:text-purple-300" rowspan="1">Gerador</th>
+                                <th class="p-3.5 text-center bg-amber-100/60 dark:bg-amber-950/35 text-amber-900 dark:text-amber-400" colspan="2">Água (01)</th>
+                                <th class="p-3.5 text-center bg-slate-200/60 dark:bg-slate-800/60 text-slate-900 dark:text-slate-300" colspan="2">Gás (14)</th>
+                                <th class="p-3.5 text-center bg-blue-100/60 dark:bg-blue-950/35 text-blue-900 dark:text-blue-400" colspan="2">ENEL (115)</th>
+                                <th class="p-3.5 text-center bg-emerald-100/60 dark:bg-emerald-950/35 text-emerald-900 dark:text-emerald-400" colspan="2">Solar 03 (06)</th>
+                                <th class="p-3.5 text-center bg-indigo-100/60 dark:bg-indigo-950/35 text-indigo-900 dark:text-indigo-400" colspan="2">Solar 55 (06)</th>
+                                <th class="p-3.5 text-center bg-purple-100/60 dark:bg-purple-950/35 text-purple-900 dark:text-purple-400" rowspan="1">Gerador</th>
                                 <th class="p-3.5 text-center" rowspan="2">Ações</th>
                             </tr>
-                            <tr class="bg-blue-50/40 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 border-b border-blue-100 dark:border-slate-700 text-[10px] font-bold">
+                            <tr class="bg-blue-50/40 dark:bg-slate-800/20 text-slate-700 dark:text-slate-400 border-b border-blue-100 dark:border-slate-800 text-[10px] font-bold">
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-amber-100/40 dark:bg-amber-950/30 text-amber-900 dark:text-amber-300">Consumo</th>
+                                <th class="p-3 bg-amber-100/40 dark:bg-amber-950/20 text-amber-900 dark:text-amber-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-slate-200/40 dark:bg-slate-800 text-slate-900 dark:text-slate-200">Consumo</th>
+                                <th class="p-3 bg-slate-200/40 dark:bg-slate-800/40 text-slate-900 dark:text-slate-200">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-blue-100/40 dark:bg-blue-950/30 text-blue-900 dark:text-blue-300">Consumo</th>
+                                <th class="p-3 bg-blue-100/40 dark:bg-blue-950/20 text-blue-900 dark:text-blue-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-emerald-100/40 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-300">Consumo</th>
+                                <th class="p-3 bg-emerald-100/40 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-indigo-100/40 dark:bg-indigo-950/30 text-indigo-900 dark:text-indigo-300">Consumo</th>
-                                <th class="p-3 bg-purple-100/40 dark:bg-purple-950/30 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
+                                <th class="p-3 bg-indigo-100/40 dark:bg-indigo-950/20 text-indigo-900 dark:text-indigo-300">Consumo</th>
+                                <th class="p-3 bg-purple-100/40 dark:bg-purple-950/20 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaCorpo" class="divide-y divide-blue-50 dark:divide-slate-800 font-medium text-slate-800 dark:text-slate-200">
+                        <tbody id="tabelaCorpo" class="divide-y divide-blue-50 dark:divide-slate-800/60 font-medium text-slate-700 dark:text-slate-300">
                             <!-- Preenchido via JavaScript -->
                         </tbody>
                     </table>
@@ -197,98 +199,108 @@
             </div>
         </div>
 
-        <!-- ABA 2: ESTATÍSTICAS & ANÁLISES -->
+        <!-- ABA 2: ESTATÍSTICAS & ANÁLISES (Com elementos gráficos e cores vivas) -->
         <div id="containerEstatisticas" class="hidden space-y-6 ios-motion">
+            <!-- Grid de Indicadores Principais com Barras Gráficas Coloridas -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 
+                <!-- Pico Água -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-wider">🏆 Maior Consumo Diário (Água)</p>
-                        <span class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs"><i class="fa-solid fa-droplet"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-600 flex items-center justify-center text-xs"><i class="fa-solid fa-droplet"></i></span>
                     </div>
-                    <h3 id="picoAgua" class="text-xl font-black text-amber-900 dark:text-amber-300 mt-2 font-mono">-</h3>
+                    <h3 id="picoAgua" class="text-xl font-black text-amber-800 dark:text-amber-400 mt-2 font-mono">-</h3>
                     <div class="mt-3 w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                         <div id="barraAgua" class="bg-amber-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                     </div>
                 </div>
 
+                <!-- Pico Gás -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-slate-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-slate-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">🏆 Maior Consumo Diário (Gás)</p>
-                        <span class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center text-xs"><i class="fa-solid fa-fire"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs"><i class="fa-solid fa-fire"></i></span>
                     </div>
-                    <h3 id="picoGas" class="text-xl font-black text-slate-900 dark:text-white mt-2 font-mono">-</h3>
+                    <h3 id="picoGas" class="text-xl font-black text-slate-800 dark:text-slate-200 mt-2 font-mono">-</h3>
                     <div class="mt-3 w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                         <div id="barraGas" class="bg-slate-600 dark:bg-slate-400 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                     </div>
                 </div>
 
+                <!-- Pico ENEL -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-blue-700 dark:text-blue-400 uppercase tracking-wider">🏆 Maior Consumo Diário (ENEL)</p>
-                        <span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs"><i class="fa-solid fa-bolt"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-600 flex items-center justify-center text-xs"><i class="fa-solid fa-bolt"></i></span>
                     </div>
-                    <h3 id="picoEnel" class="text-xl font-black text-blue-900 dark:text-blue-300 mt-2 font-mono">-</h3>
+                    <h3 id="picoEnel" class="text-xl font-black text-blue-800 dark:text-blue-400 mt-2 font-mono">-</h3>
                     <div class="mt-3 w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                         <div id="barraEnel" class="bg-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                     </div>
                 </div>
 
+                <!-- Mês Maior Água -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">📅 Mês de Maior Consumo (Água)</p>
-                        <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-days"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-days"></i></span>
                     </div>
-                    <h3 id="mesMaiorAgua" class="text-xl font-black text-emerald-900 dark:text-emerald-300 mt-2 font-mono">-</h3>
+                    <h3 id="mesMaiorAgua" class="text-xl font-black text-emerald-800 dark:text-emerald-400 mt-2 font-mono">-</h3>
                 </div>
 
+                <!-- Mês Maior ENEL -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">📅 Mês de Maior Consumo (ENEL)</p>
-                        <span class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-check"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-check"></i></span>
                     </div>
-                    <h3 id="mesMaiorEnel" class="text-xl font-black text-indigo-900 dark:text-indigo-300 mt-2 font-mono">-</h3>
+                    <h3 id="mesMaiorEnel" class="text-xl font-black text-indigo-800 dark:text-indigo-400 mt-2 font-mono">-</h3>
                 </div>
 
+                <!-- Total de Registros -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-purple-700 dark:text-purple-400 uppercase tracking-wider">📊 Total Registros Históricos</p>
-                        <span class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xs"><i class="fa-solid fa-database"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-950/50 text-purple-600 flex items-center justify-center text-xs"><i class="fa-solid fa-database"></i></span>
                     </div>
-                    <h3 id="totalRegistros" class="text-xl font-black text-purple-900 dark:text-purple-300 mt-2 font-mono">-</h3>
+                    <h3 id="totalRegistros" class="text-xl font-black text-purple-800 dark:text-purple-400 mt-2 font-mono">-</h3>
                 </div>
 
+                <!-- Autonomia do Gerador (Com Gráfico Gráfico Circular/Barra) -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-teal-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-teal-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
-                        <p class="text-[10px] font-extrabold text-teal-700 dark:text-teal-400 uppercase tracking-wider">🔋 Nível do Tanque (Gerador)</p>
-                        <span class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-950/80 text-teal-600 dark:text-teal-400 flex items-center justify-center text-xs"><i class="fa-solid fa-gas-pump"></i></span>
+                        <p class="text-[10px] font-extrabold text-teal-700 dark:text-teal-400 uppercase tracking-wider">🔋 Autonomia Estimada do Gerador</p>
+                        <span class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-950/50 text-teal-600 flex items-center justify-center text-xs"><i class="fa-solid fa-gas-pump"></i></span>
                     </div>
-                    <h3 id="autonomiaGerador" class="text-xl font-black text-teal-900 dark:text-teal-300 mt-2 font-mono">-</h3>
+                    <h3 id="autonomiaGerador" class="text-xl font-black text-teal-800 dark:text-teal-400 mt-2 font-mono">-</h3>
                 </div>
 
+                <!-- Total Solar Gerado -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">☀️ Total Solar Gerado (Último Dia)</p>
-                        <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs"><i class="fa-solid fa-sun"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 flex items-center justify-center text-xs"><i class="fa-solid fa-sun"></i></span>
                     </div>
-                    <h3 id="solarGerado" class="text-xl font-black text-emerald-900 dark:text-emerald-300 mt-2 font-mono">-</h3>
+                    <h3 id="solarGerado" class="text-xl font-black text-emerald-800 dark:text-emerald-400 mt-2 font-mono">-</h3>
                 </div>
 
+                <!-- Média Diária -->
                 <div class="ios-card p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/15 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex items-center justify-between">
                         <p class="text-[10px] font-extrabold text-blue-700 dark:text-blue-400 uppercase tracking-wider">📉 Média Diária (Água / ENEL)</p>
-                        <span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs"><i class="fa-solid fa-chart-line"></i></span>
+                        <span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-600 flex items-center justify-center text-xs"><i class="fa-solid fa-chart-line"></i></span>
                     </div>
-                    <h3 id="mediaDiaria" class="text-xl font-black text-blue-900 dark:text-blue-300 mt-2 font-mono">-</h3>
+                    <h3 id="mediaDiaria" class="text-xl font-black text-blue-800 dark:text-blue-300 mt-2 font-mono">-</h3>
                 </div>
 
             </div>
@@ -296,17 +308,17 @@
 
     </main>
 
-    <!-- Toast Estilo Dynamic Island -->
+    <!-- Toast Estilo Dynamic Island / iOS Notification -->
     <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 translate-y-20 opacity-0 pointer-events-none">
         <div class="ios-glass px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 border border-white/20">
             <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
-            <span id="toastMessage" class="text-xs font-semibold tracking-wide text-slate-900 dark:text-slate-100">Ação realizada com sucesso!</span>
+            <span id="toastMessage" class="text-xs font-semibold tracking-wide text-slate-800 dark:text-slate-100">Ação realizada com sucesso!</span>
         </div>
     </div>
 
     <!-- Modal Nova / Editar Medição -->
     <div id="modalLeitura" class="fixed inset-0 z-50 hidden modal-blur-backdrop bg-slate-900/40 flex items-center justify-center p-4">
-        <div id="modalLeituraContent" class="modal-animated modal-closed ios-card w-full max-w-xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700">
+        <div id="modalLeituraContent" class="modal-animated modal-closed ios-card w-full max-w-xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800">
             <div class="px-6 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex justify-between items-center">
                 <h3 id="modalTitulo" class="font-extrabold text-base flex items-center gap-2.5">
                     <i class="fa-solid fa-plus-circle text-white"></i> Registrar Nova Medição
@@ -320,39 +332,39 @@
                 <input type="hidden" id="editId" value="">
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">Data da Medição (23:00)</label>
-                    <input type="date" id="dataLeitura" required class="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-blue-500/50 focus:outline-none shadow-sm">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Data da Medição (23:00)</label>
+                    <input type="date" id="dataLeitura" required class="w-full px-4 py-3 bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500/50 focus:outline-none shadow-sm">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                    <div class="p-3.5 bg-amber-50/90 dark:bg-amber-950/30 rounded-2xl border border-amber-200 dark:border-amber-900/50">
-                        <label class="block text-xs font-bold text-amber-900 dark:text-amber-300 mb-1">Água (Chave 01)</label>
-                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm">
+                    <div class="p-3.5 bg-amber-50/80 dark:bg-amber-950/20 rounded-2xl border border-amber-200/70 dark:border-amber-900/40">
+                        <label class="block text-xs font-bold text-amber-900 dark:text-amber-400 mb-1">Água (Chave 01)</label>
+                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm">
                     </div>
-                    <div class="p-3.5 bg-slate-100/90 dark:bg-slate-800/80 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <div class="p-3.5 bg-slate-100/80 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60">
                         <label class="block text-xs font-bold text-slate-900 dark:text-slate-200 mb-1">Gás (Chave 14)</label>
-                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-slate-500 focus:outline-none shadow-sm">
+                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-500 focus:outline-none shadow-sm">
                     </div>
-                    <div class="p-3.5 bg-blue-50/90 dark:bg-blue-950/30 rounded-2xl border border-blue-200 dark:border-blue-900/50">
-                        <label class="block text-xs font-bold text-blue-900 dark:text-blue-300 mb-1">ENEL (Chave 115)</label>
-                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
+                    <div class="p-3.5 bg-blue-50/80 dark:bg-blue-950/20 rounded-2xl border border-blue-200/70 dark:border-blue-900/40">
+                        <label class="block text-xs font-bold text-blue-900 dark:text-blue-400 mb-1">ENEL (Chave 115)</label>
+                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
                     </div>
-                    <div class="p-3.5 bg-emerald-50/90 dark:bg-emerald-950/30 rounded-2xl border border-emerald-200 dark:border-emerald-900/50">
-                        <label class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 mb-1">Solar 03 (Chave 06)</label>
-                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm">
+                    <div class="p-3.5 bg-emerald-50/80 dark:bg-emerald-950/20 rounded-2xl border border-emerald-200/70 dark:border-emerald-900/40">
+                        <label class="block text-xs font-bold text-emerald-900 dark:text-emerald-400 mb-1">Solar 03 (Chave 06)</label>
+                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm">
                     </div>
-                    <div class="p-3.5 bg-indigo-50/90 dark:bg-indigo-950/30 rounded-2xl border border-indigo-200 dark:border-indigo-900/50">
-                        <label class="block text-xs font-bold text-indigo-900 dark:text-indigo-300 mb-1">Solar 55 (Chave 06)</label>
-                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
+                    <div class="p-3.5 bg-indigo-50/80 dark:bg-indigo-950/20 rounded-2xl border border-indigo-200/70 dark:border-indigo-900/40">
+                        <label class="block text-xs font-bold text-indigo-900 dark:text-indigo-400 mb-1">Solar 55 (Chave 06)</label>
+                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
                     </div>
-                    <div class="p-3.5 bg-purple-50/90 dark:bg-purple-950/30 rounded-2xl border border-purple-200 dark:border-purple-900/50">
-                        <label class="block text-xs font-bold text-purple-900 dark:text-purple-300 mb-1">Gerador (% Tanque)</label>
-                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
+                    <div class="p-3.5 bg-purple-50/80 dark:bg-purple-950/20 rounded-2xl border border-purple-200/70 dark:border-purple-900/40">
+                        <label class="block text-xs font-bold text-purple-900 dark:text-purple-400 mb-1">Gerador (% Tanque)</label>
+                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
                     </div>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
-                    <button type="button" onclick="fecharModal()" class="ios-pill px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition">
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200/60 dark:border-slate-800">
+                    <button type="button" onclick="fecharModal()" class="ios-pill px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition">
                         Cancelar
                     </button>
                     <button type="submit" class="ios-pill px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-500/25 transition">
@@ -365,7 +377,7 @@
 
     <!-- Modal WhatsApp -->
     <div id="modalWhatsApp" class="fixed inset-0 z-50 hidden modal-blur-backdrop bg-slate-900/40 flex items-center justify-center p-4">
-        <div id="modalWhatsAppContent" class="modal-animated modal-closed ios-card w-full max-w-lg shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700">
+        <div id="modalWhatsAppContent" class="modal-animated modal-closed ios-card w-full max-w-lg shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800">
             <div class="px-6 py-5 bg-emerald-600 text-white flex justify-between items-center">
                 <h3 class="font-bold text-base flex items-center gap-2">
                     <i class="fa-brands fa-whatsapp text-lg"></i> Mensagem para o Grupo
@@ -375,11 +387,11 @@
                 </button>
             </div>
             <div class="p-6 space-y-4">
-                <p class="text-xs text-slate-600 dark:text-slate-300">Mensagem formatada com base na última leitura enviada:</p>
-                <textarea id="textoWhatsApp" rows="14" readonly class="w-full p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs font-mono text-slate-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none shadow-sm"></textarea>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Mensagem formatada com base na última leitura enviada:</p>
+                <textarea id="textoWhatsApp" rows="14" readonly class="w-full p-4 bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 rounded-2xl text-xs font-mono text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none shadow-sm"></textarea>
                 
                 <div class="flex justify-end gap-3">
-                    <button type="button" onclick="fecharModalWhatsApp()" class="ios-pill px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold">
+                    <button type="button" onclick="fecharModalWhatsApp()" class="ios-pill px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold">
                         Fechar
                     </button>
                     <button type="button" onclick="copiarTextoWhatsApp()" class="ios-pill px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-500/25 flex items-center gap-2">
@@ -390,7 +402,7 @@
         </div>
     </div>
 
-    <footer class="py-6 text-center text-xs text-slate-600 dark:text-slate-400 font-medium">
+    <footer class="py-6 text-center text-xs text-slate-500 dark:text-slate-400 font-medium">
         <p>Sistema de Controle de Medições Diárias do Condomínio • Atualizações às 23:00</p>
     </footer>
 
@@ -408,7 +420,7 @@
                 document.getElementById('iconeModoNoturno').className = 'fa-solid fa-moon text-sm';
             } else {
                 document.documentElement.classList.add('dark');
-                document.getElementById('iconeModoNoturno').className = 'fa-solid fa-sun text-sm text-yellow-300';
+                document.getElementById('iconeModoNoturno').className = 'fa-solid fa-sun text-sm text-yellow-400';
             }
 
             await carregarDados();
@@ -429,7 +441,7 @@
             } else {
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
-                icone.className = 'fa-solid fa-sun text-sm text-yellow-300';
+                icone.className = 'fa-solid fa-sun text-sm text-yellow-400';
             }
         }
 
@@ -443,13 +455,13 @@
                 cMedicoes.classList.add('hidden');
                 cEstatisticas.classList.remove('hidden');
                 btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2';
-                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2';
+                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2';
                 calcularEstatisticas();
             } else {
                 cEstatisticas.classList.add('hidden');
                 cMedicoes.classList.remove('hidden');
                 btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2';
-                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2';
+                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2';
             }
         }
 
@@ -580,24 +592,24 @@
                 }
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-blue-50/50 dark:hover:bg-slate-800 transition border-b border-blue-50 dark:border-slate-800';
+                tr.className = 'hover:bg-blue-50/50 dark:hover:bg-slate-800/40 transition border-b border-blue-50 dark:border-slate-800/50';
                 tr.innerHTML = `
-                    <td class="p-3.5 text-center font-bold text-slate-900 dark:text-slate-100">${dataBR}</td>
-                    <td class="p-3.5 text-center font-mono text-slate-800 dark:text-slate-200">${formatarNumero(item.agua, 2)}</td>
-                    <td class="p-3.5 text-center font-mono font-bold text-amber-700 dark:text-amber-400 bg-amber-50/40 dark:bg-amber-950/20">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
-                    <td class="p-3.5 text-center font-mono text-slate-800 dark:text-slate-200">${formatarNumero(item.gas, 2)}</td>
-                    <td class="p-3.5 text-center font-mono font-bold text-slate-900 dark:text-slate-200 bg-slate-100/40 dark:bg-slate-800/60">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
-                    <td class="p-3.5 text-center font-mono text-slate-800 dark:text-slate-200">${formatarNumero(item.enel, 0)}</td>
-                    <td class="p-3.5 text-center font-mono font-bold text-blue-700 dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/20">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
-                    <td class="p-3.5 text-center font-mono text-slate-800 dark:text-slate-200">${formatarNumero(item.solar03, 0)}</td>
-                    <td class="p-3.5 text-center font-mono font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
-                    <td class="p-3.5 text-center font-mono text-slate-800 dark:text-slate-200">${formatarNumero(item.solar55, 0)}</td>
-                    <td class="p-3.5 text-center font-mono font-bold text-indigo-700 dark:text-indigo-400 bg-indigo-50/40 dark:bg-indigo-950/20">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
-                    <td class="p-3.5 text-center font-mono font-bold text-purple-700 dark:text-purple-400 bg-purple-50/40 dark:bg-purple-950/20">${item.gerador}%</td>
+                    <td class="p-3.5 text-center font-bold text-slate-800 dark:text-slate-200">${dataBR}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.agua, 2)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-amber-600 dark:text-amber-400 bg-amber-50/30 dark:bg-amber-950/10">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.gas, 2)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-slate-700 dark:text-slate-300 bg-slate-100/30 dark:bg-slate-800/30">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.enel, 0)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50/30 dark:bg-blue-950/10">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.solar03, 0)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50/30 dark:bg-emerald-950/10">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.solar55, 0)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/30 dark:bg-indigo-950/10">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-purple-600 dark:text-purple-400 bg-purple-50/30 dark:bg-purple-950/10">${item.gerador}%</td>
                     <td class="p-3.5 text-center">
                         <div class="flex items-center justify-center gap-1.5">
-                            <button onclick="editarLeitura('${item.id}')" class="w-7 h-7 rounded-xl bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 hover:bg-blue-200 transition flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-[10px]"></i></button>
-                            <button onclick="excluirLeitura('${item.id}')" class="w-7 h-7 rounded-xl bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300 hover:bg-rose-200 transition flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                            <button onclick="editarLeitura('${item.id}')" class="w-7 h-7 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 hover:bg-blue-200 transition flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                            <button onclick="excluirLeitura('${item.id}')" class="w-7 h-7 rounded-xl bg-rose-100 dark:bg-rose-950/50 text-rose-600 hover:bg-rose-200 transition flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-[10px]"></i></button>
                         </div>
                     </td>
                 `;
@@ -608,7 +620,7 @@
         function atualizarResumoCards() {
             const container = document.getElementById('resumoCards');
             if (!container || medicoes.length === 0) {
-                if (container) container.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400 col-span-full text-center py-4">Nenhuma medição registrada.</p>';
+                if (container) container.innerHTML = '<p class="text-xs text-slate-400 col-span-full text-center py-4">Nenhuma medição registrada.</p>';
                 return;
             }
 
@@ -622,35 +634,35 @@
             let cSolar55 = penultimo ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
 
             container.innerHTML = `
-                <div class="ios-card p-4 shadow-md border-amber-200 dark:border-amber-900/50 bg-gradient-to-br from-amber-50/95 to-amber-100/50 dark:from-amber-950/40 dark:to-slate-900">
-                    <p class="text-[10px] font-extrabold text-amber-800 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-droplet text-amber-500"></i> Água (Último)</p>
-                    <h4 class="text-lg font-black text-amber-950 dark:text-amber-200 mt-1 font-mono">${formatarNumero(cAgua, 2)} L</h4>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
+                <div class="ios-card p-4 shadow-md border-amber-200/80 bg-gradient-to-br from-amber-50/90 to-amber-100/40">
+                    <p class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-droplet text-amber-500"></i> Água (Último)</p>
+                    <h4 class="text-lg font-black text-amber-900 mt-1 font-mono">${formatarNumero(cAgua, 2)} L</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-slate-200 dark:border-slate-700 bg-gradient-to-br from-slate-100/95 to-slate-200/50 dark:from-slate-800/80 dark:to-slate-900">
-                    <p class="text-[10px] font-extrabold text-slate-800 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire text-slate-600 dark:text-slate-400"></i> Gás (Último)</p>
-                    <h4 class="text-lg font-black text-slate-950 dark:text-white mt-1 font-mono">${formatarNumero(cGas, 2)} m³</h4>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
+                <div class="ios-card p-4 shadow-md border-slate-200 bg-gradient-to-br from-slate-100/90 to-slate-200/40">
+                    <p class="text-[10px] font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire text-slate-500"></i> Gás (Último)</p>
+                    <h4 class="text-lg font-black text-slate-900 mt-1 font-mono">${formatarNumero(cGas, 2)} m³</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-blue-200 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/95 to-blue-100/50 dark:from-blue-950/40 dark:to-slate-900">
-                    <p class="text-[10px] font-extrabold text-blue-800 dark:text-blue-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-bolt text-blue-500"></i> ENEL (Último)</p>
-                    <h4 class="text-lg font-black text-blue-950 dark:text-blue-200 mt-1 font-mono">${formatarNumero(cEnel, 0)} kWh</h4>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-blue-200/80 bg-gradient-to-br from-blue-50/90 to-blue-100/40">
+                    <p class="text-[10px] font-extrabold text-blue-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-bolt text-blue-500"></i> ENEL (Último)</p>
+                    <h4 class="text-lg font-black text-blue-900 mt-1 font-mono">${formatarNumero(cEnel, 0)} kWh</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-emerald-200 dark:border-emerald-900/50 bg-gradient-to-br from-emerald-50/95 to-emerald-100/50 dark:from-emerald-950/40 dark:to-slate-900">
-                    <p class="text-[10px] font-extrabold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-emerald-500"></i> Solar 03</p>
-                    <h4 class="text-lg font-black text-emerald-950 dark:text-emerald-200 mt-1 font-mono">${formatarNumero(cSolar03, 0)}</h4>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-emerald-200/80 bg-gradient-to-br from-emerald-50/90 to-emerald-100/40">
+                    <p class="text-[10px] font-extrabold text-emerald-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-emerald-500"></i> Solar 03</p>
+                    <h4 class="text-lg font-black text-emerald-900 mt-1 font-mono">${formatarNumero(cSolar03, 0)}</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-indigo-200 dark:border-indigo-900/50 bg-gradient-to-br from-indigo-50/95 to-indigo-100/50 dark:from-indigo-950/40 dark:to-slate-900">
-                    <p class="text-[10px] font-extrabold text-indigo-800 dark:text-indigo-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-indigo-500"></i> Solar 55</p>
-                    <h4 class="text-lg font-black text-indigo-950 dark:text-indigo-200 mt-1 font-mono">${formatarNumero(cSolar55, 0)}</h4>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-indigo-200/80 bg-gradient-to-br from-indigo-50/90 to-indigo-100/40">
+                    <p class="text-[10px] font-extrabold text-indigo-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-indigo-500"></i> Solar 55</p>
+                    <h4 class="text-lg font-black text-indigo-900 mt-1 font-mono">${formatarNumero(cSolar55, 0)}</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
                 </div>
-                <div class="ios-card p-4 shadow-md border-purple-200 dark:border-purple-900/50 bg-gradient-to-br from-purple-50/95 to-purple-100/50 dark:from-purple-950/40 dark:to-slate-900">
-                    <p class="text-[10px] font-extrabold text-purple-800 dark:text-purple-400 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-gas-pump text-purple-500"></i> Gerador</p>
-                    <h4 class="text-lg font-black text-purple-950 dark:text-purple-200 mt-1 font-mono">${ultimo.gerador}% Tanque</h4>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5">Data: ${formatarDataBR(ultimo.data)}</p>
+                <div class="ios-card p-4 shadow-md border-purple-200/80 bg-gradient-to-br from-purple-50/90 to-purple-100/40">
+                    <p class="text-[10px] font-extrabold text-purple-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-gas-pump text-purple-500"></i> Gerador</p>
+                    <h4 class="text-lg font-black text-purple-900 mt-1 font-mono">${ultimo.gerador}% Tanque</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Data: ${formatarDataBR(ultimo.data)}</p>
                 </div>
             `;
         }
@@ -690,6 +702,7 @@
                 }
             }
 
+            // Encontrar meses de maior consumo
             let mesMaxAgua = '-', maxAguaVal = 0;
             for (let [mes, val] of Object.entries(consumoMensalAgua)) {
                 if (val > maxAguaVal) { maxAguaVal = val; mesMaxAgua = mes; }
@@ -717,9 +730,10 @@
             document.getElementById('mesMaiorEnel').innerText = mesMaxEnel !== '-' ? `${mesMaxEnel} (${formatarNumero(maxEnelVal, 0)} kWh)` : '-';
             document.getElementById('totalRegistros').innerText = `${medicoes.length} dias cadastrados`;
 
-            document.getElementById('autonomiaGerador').innerText = `${ultimo.gerador}% do Tanque`;
+            document.getElementById('autonomiaGerador').innerText = `${ultimo.gerador}% (Aprox. ${(ultimo.gerador * 1.5).toFixed(0)}h)`;
             document.getElementById('solarGerado').innerText = `${formatarNumero(solarGeradoTotal, 0)} kWh`;
 
+            // Média diária geral
             let somaAgua = 0, somaEnel = 0, diasContados = medicoes.length - 1;
             if (diasContados > 0) {
                 for(let i=1; i<medicoes.length; i++) {
@@ -758,15 +772,11 @@
         }
 
         async function editarLeitura(id) {
-            // Conversão segura para garantir compatibilidade entre string e número no ID
-            const item = medicoes.find(m => String(m.id) === String(id));
-            if (!item) {
-                mostrarToast('Erro: Medição não encontrada!', 'erro');
-                return;
-            }
+            const item = medicoes.find(m => m.id === id);
+            if (!item) return;
 
             document.getElementById('editId').value = item.id;
-            document.getElementById('dataLeitura').value = item.data ? item.data.split('T')[0] : '';
+            document.getElementById('dataLeitura').value = item.data.split('T')[0];
             document.getElementById('aguaLeitura').value = item.agua;
             document.getElementById('gasLeitura').value = item.gas;
             document.getElementById('enelLeitura').value = item.enel;
