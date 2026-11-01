@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Medições - Condomínio</title>
+    <title>Sistema de Medições - Condomínio (iOS Edition)</title>
     <link rel="icon" type="image/png" href="icone.png">
     
     <!-- Tailwind CSS -->
@@ -22,60 +22,90 @@
 
     <style>
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .glass-panel {
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        /* Efeito de Vidro Profundo iOS / Liquid Glassmorphism */
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(35px) saturate(210%);
+            -webkit-backdrop-filter: blur(35px) saturate(210%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .dark .ios-glass {
+            background: rgba(22, 27, 34, 0.7);
+            backdrop-filter: blur(40px) saturate(220%);
+            -webkit-backdrop-filter: blur(40px) saturate(220%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Transições com Motion Blur e Spring Physics estilo iOS */
+        .ios-motion {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter;
         }
 
         .modal-blur-backdrop {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-animated {
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-            will-change: transform, opacity;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            transition: all 0.4s ease;
         }
 
         .modal-closed {
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            filter: blur(10px);
+            transform: translateY(40px) scale(0.92);
             pointer-events: none;
         }
 
         .modal-open {
             opacity: 1;
+            filter: blur(0px);
             transform: translateY(0) scale(1);
             pointer-events: auto;
         }
 
-        .oneui-card {
-            border-radius: 24px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        /* Cards Estilo Widget do iOS */
+        .ios-card {
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
         }
 
-        .oneui-pill {
+        .dark .ios-card {
+            background: rgba(30, 35, 45, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .ios-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .ios-pill {
             border-radius: 9999px;
-            transition: transform 0.15s ease, filter 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        .oneui-pill:active {
-            transform: scale(0.95);
+        .ios-pill:active {
+            transform: scale(0.94);
         }
     </style>
 </head>
-<body class="bg-[#F4F5F8] dark:bg-[#0F1117] text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
+<body class="bg-[#F2F2F7] dark:bg-[#000000] text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
 
-    <!-- Header Glassmorphism -->
-    <header class="sticky top-0 z-40 glass-panel bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+    <!-- Header Glassmorphism Estilo iOS -->
+    <header class="sticky top-0 z-40 ios-glass border-b border-slate-200/40 dark:border-slate-800/60 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3.5">
-                <div class="w-11 h-11 bg-blue-600 text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-md shadow-blue-500/20">
+                <div class="w-12 h-12 bg-blue-600 text-white rounded-[20px] flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/30">
                     <i class="fa-solid fa-gauge-high"></i>
                 </div>
                 <div>
@@ -85,26 +115,26 @@
             </div>
             
             <div class="flex items-center gap-3 w-full sm:w-auto">
-                <button type="button" onclick="alternarModoNoturno()" class="oneui-pill w-10 h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-yellow-400 flex items-center justify-center shadow-sm transition" title="Alternar Modo Noturno">
+                <button type="button" onclick="alternarModoNoturno()" class="ios-pill w-11 h-11 bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-yellow-400 flex items-center justify-center shadow-sm transition" title="Alternar Modo Noturno">
                     <i id="iconeModoNoturno" class="fa-solid fa-moon text-sm"></i>
                 </button>
 
-                <button type="button" onclick="abrirModalNovaLeitura()" class="flex-1 sm:flex-initial oneui-pill bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 text-xs font-bold shadow-md shadow-blue-500/20 flex items-center justify-center gap-2">
+                <button type="button" onclick="abrirModalNovaLeitura()" class="flex-1 sm:flex-initial ios-pill bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-plus"></i> Nova Medição
                 </button>
-                <button type="button" onclick="gerarMensagemWhatsApp()" class="flex-1 sm:flex-initial oneui-pill bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 text-xs font-bold shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2">
+                <button type="button" onclick="gerarMensagemWhatsApp()" class="flex-1 sm:flex-initial ios-pill bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 text-xs font-bold shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2">
                     <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Sistema de Abas (Navegação One UI) -->
+    <!-- Sistema de Abas (Navegação Estilo iOS Segmented Control) -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex gap-2 w-full">
-        <button onclick="alternarAba('medicoes')" id="tabMedicoes" class="oneui-pill px-5 py-2.5 text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-500/20 flex items-center gap-2">
+        <button onclick="alternarAba('medicoes')" id="tabMedicoes" class="ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2">
             <i class="fa-solid fa-table-list"></i> Medições & Histórico
         </button>
-        <button onclick="alternarAba('estatisticas')" id="tabEstatisticas" class="oneui-pill px-5 py-2.5 text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center gap-2">
+        <button onclick="alternarAba('estatisticas')" id="tabEstatisticas" class="ios-pill px-6 py-3 text-xs font-bold bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 flex items-center gap-2">
             <i class="fa-solid fa-chart-pie"></i> Análises & Estatísticas
         </button>
     </div>
@@ -113,30 +143,30 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-grow space-y-6">
         
         <!-- ABA 1: MEDIÇÕES -->
-        <div id="containerMedicoes" class="space-y-6">
-            <!-- Cards de Resumo One UI -->
+        <div id="containerMedicoes" class="space-y-6 ios-motion">
+            <!-- Cards de Resumo Estilo Widgets iOS -->
             <div id="resumoCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
                 <!-- Preenchido via JavaScript -->
             </div>
 
             <!-- Tabela de Histórico -->
-            <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 overflow-hidden shadow-sm">
-                <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="ios-card overflow-hidden shadow-xl">
+                <div class="p-6 border-b border-slate-200/40 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Histórico de Medições</h2>
                         <p class="text-xs text-slate-400">Listagem filtrada por mês e busca por dia</p>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                        <select id="filtroMes" onchange="renderizarTabela()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50 border-0">
+                        <select id="filtroMes" onchange="renderizarTabela()" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50 border-0">
                             <!-- Preenchido via JS -->
                         </select>
 
                         <div class="relative w-full sm:w-48">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                                 <i class="fa-solid fa-magnifying-glass text-xs"></i>
                             </span>
-                            <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Buscar dia..." class="w-full pl-9 pr-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 border-0">
+                            <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Buscar dia..." class="w-full pl-9 pr-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 border-0">
                         </div>
                     </div>
                 </div>
@@ -144,31 +174,31 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-50/80 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold text-[10px] border-b border-slate-100 dark:border-slate-800">
-                                <th class="p-3 text-center" rowspan="2">Data</th>
-                                <th class="p-3 text-center bg-amber-50/60 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400" colspan="2">Água (01)</th>
-                                <th class="p-3 text-center bg-slate-100/60 dark:bg-slate-800/60 text-slate-800 dark:text-slate-300" colspan="2">Gás (14)</th>
-                                <th class="p-3 text-center bg-blue-50/60 dark:bg-blue-950/30 text-blue-800 dark:text-blue-400" colspan="2">ENEL (115)</th>
-                                <th class="p-3 text-center bg-emerald-50/60 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-400" colspan="2">Solar 03 (06)</th>
-                                <th class="p-3 text-center bg-indigo-50/60 dark:bg-indigo-950/30 text-indigo-800 dark:text-indigo-400" colspan="2">Solar 55 (06)</th>
-                                <th class="p-3 text-center bg-purple-50/60 dark:bg-purple-950/30 text-purple-800 dark:text-purple-400" colspan="1">Gerador</th>
-                                <th class="p-3 text-center" rowspan="2">Ações</th>
+                            <tr class="bg-slate-50/80 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold text-[10px] border-b border-slate-200/40 dark:border-slate-800">
+                                <th class="p-3.5 text-center" rowspan="2">Data</th>
+                                <th class="p-3.5 text-center bg-amber-50/60 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400" colspan="2">Água (01)</th>
+                                <th class="p-3.5 text-center bg-slate-100/60 dark:bg-slate-800/60 text-slate-800 dark:text-slate-300" colspan="2">Gás (14)</th>
+                                <th class="p-3.5 text-center bg-blue-50/60 dark:bg-blue-950/30 text-blue-800 dark:text-blue-400" colspan="2">ENEL (115)</th>
+                                <th class="p-3.5 text-center bg-emerald-50/60 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-400" colspan="2">Solar 03 (06)</th>
+                                <th class="p-3.5 text-center bg-indigo-50/60 dark:bg-indigo-950/30 text-indigo-800 dark:text-indigo-400" colspan="2">Solar 55 (06)</th>
+                                <th class="p-3.5 text-center bg-purple-50/60 dark:bg-purple-950/30 text-purple-800 dark:text-purple-400" colspan="1">Gerador</th>
+                                <th class="p-3.5 text-center" rowspan="2">Ações</th>
                             </tr>
-                            <tr class="bg-slate-50/40 dark:bg-slate-800/30 text-slate-600 dark:text-slate-400 border-b border-slate-100 dark:border-slate-800 text-[10px] font-bold">
-                                <th class="p-2.5">Leitura</th>
-                                <th class="p-2.5 bg-amber-50/40 dark:bg-amber-950/20 text-amber-900 dark:text-amber-300">Consumo</th>
-                                <th class="p-2.5">Leitura</th>
-                                <th class="p-2.5 bg-slate-100/40 dark:bg-slate-800/40 text-slate-900 dark:text-slate-200">Consumo</th>
-                                <th class="p-2.5">Leitura</th>
-                                <th class="p-2.5 bg-blue-50/40 dark:bg-blue-950/20 text-blue-900 dark:text-blue-300">Consumo</th>
-                                <th class="p-2.5">Leitura</th>
-                                <th class="p-2.5 bg-emerald-50/40 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-300">Consumo</th>
-                                <th class="p-2.5">Leitura</th>
-                                <th class="p-2.5 bg-indigo-50/40 dark:bg-indigo-950/20 text-indigo-900 dark:text-indigo-300">Consumo</th>
-                                <th class="p-2.5 bg-purple-50/40 dark:bg-purple-950/20 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
+                            <tr class="bg-slate-50/40 dark:bg-slate-800/20 text-slate-600 dark:text-slate-400 border-b border-slate-200/40 dark:border-slate-800 text-[10px] font-bold">
+                                <th class="p-3">Leitura</th>
+                                <th class="p-3 bg-amber-50/40 dark:bg-amber-950/20 text-amber-900 dark:text-amber-300">Consumo</th>
+                                <th class="p-3">Leitura</th>
+                                <th class="p-3 bg-slate-100/40 dark:bg-slate-800/40 text-slate-900 dark:text-slate-200">Consumo</th>
+                                <th class="p-3">Leitura</th>
+                                <th class="p-3 bg-blue-50/40 dark:bg-blue-950/20 text-blue-900 dark:text-blue-300">Consumo</th>
+                                <th class="p-3">Leitura</th>
+                                <th class="p-3 bg-emerald-50/40 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-300">Consumo</th>
+                                <th class="p-3">Leitura</th>
+                                <th class="p-3 bg-indigo-50/40 dark:bg-indigo-950/20 text-indigo-900 dark:text-indigo-300">Consumo</th>
+                                <th class="p-3 bg-purple-50/40 dark:bg-purple-950/20 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaCorpo" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium text-slate-700 dark:text-slate-300">
+                        <tbody id="tabelaCorpo" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium text-slate-700 dark:text-slate-300">
                             <!-- Preenchido via JavaScript -->
                         </tbody>
                     </table>
@@ -177,68 +207,68 @@
         </div>
 
         <!-- ABA 2: ESTATÍSTICAS & ANÁLISES -->
-        <div id="containerEstatisticas" class="hidden space-y-6">
+        <div id="containerEstatisticas" class="hidden space-y-6 ios-motion">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🏆 Maior Consumo Diário (Água)</p>
-                    <h3 id="picoAgua" class="text-base font-extrabold text-amber-600 dark:text-amber-400 mt-1 font-mono">-</h3>
+                    <h3 id="picoAgua" class="text-lg font-extrabold text-amber-600 dark:text-amber-400 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🏆 Maior Consumo Diário (Gás)</p>
-                    <h3 id="picoGas" class="text-base font-extrabold text-slate-700 dark:text-slate-300 mt-1 font-mono">-</h3>
+                    <h3 id="picoGas" class="text-lg font-extrabold text-slate-700 dark:text-slate-300 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🏆 Maior Consumo Diário (ENEL)</p>
-                    <h3 id="picoEnel" class="text-base font-extrabold text-blue-600 dark:text-blue-400 mt-1 font-mono">-</h3>
+                    <h3 id="picoEnel" class="text-lg font-extrabold text-blue-600 dark:text-blue-400 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📅 Mês de Maior Consumo (Água)</p>
-                    <h3 id="mesMaiorAgua" class="text-base font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 font-mono">-</h3>
+                    <h3 id="mesMaiorAgua" class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📅 Mês de Maior Consumo (ENEL)</p>
-                    <h3 id="mesMaiorEnel" class="text-base font-extrabold text-indigo-600 dark:text-indigo-400 mt-1 font-mono">-</h3>
+                    <h3 id="mesMaiorEnel" class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📊 Total Registros Históricos</p>
-                    <h3 id="totalRegistros" class="text-base font-extrabold text-purple-600 dark:text-purple-400 mt-1 font-mono">-</h3>
+                    <h3 id="totalRegistros" class="text-lg font-extrabold text-purple-600 dark:text-purple-400 mt-1 font-mono">-</h3>
                 </div>
 
-                <!-- Novos Cards de Super Análises -->
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <!-- Cards de Super Análises Avançadas -->
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🔋 Autonomia Estimada do Gerador</p>
-                    <h3 id="autonomiaGerador" class="text-base font-extrabold text-teal-600 dark:text-teal-400 mt-1 font-mono">-</h3>
+                    <h3 id="autonomiaGerador" class="text-lg font-extrabold text-teal-600 dark:text-teal-400 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">☀️ Total Solar Gerado (Último Dia)</p>
-                    <h3 id="solarGerado" class="text-base font-extrabold text-emerald-500 dark:text-emerald-400 mt-1 font-mono">-</h3>
+                    <h3 id="solarGerado" class="text-lg font-extrabold text-emerald-500 dark:text-emerald-400 mt-1 font-mono">-</h3>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 p-5 border border-slate-200/60 dark:border-slate-800 shadow-sm">
+                <div class="ios-card p-6 shadow-xl">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📉 Média Diária (Água / ENEL)</p>
-                    <h3 id="mediaDiaria" class="text-base font-extrabold text-blue-500 dark:text-blue-300 mt-1 font-mono">-</h3>
+                    <h3 id="mediaDiaria" class="text-lg font-extrabold text-blue-500 dark:text-blue-300 mt-1 font-mono">-</h3>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Toast de Notificação -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transition-all duration-300 translate-y-20 opacity-0 pointer-events-none">
-        <div class="bg-slate-900/90 dark:bg-slate-800/90 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700/50 backdrop-blur-md">
+    <!-- Toast Estilo Dynamic Island / iOS Notification -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 translate-y-20 opacity-0 pointer-events-none">
+        <div class="ios-glass px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 border border-white/20">
             <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
-            <span id="toastMessage" class="text-xs font-semibold">Ação realizada com sucesso!</span>
+            <span id="toastMessage" class="text-xs font-semibold tracking-wide">Ação realizada com sucesso!</span>
         </div>
     </div>
 
-    <!-- Modal Nova / Editar Medição -->
+    <!-- Modal Nova / Editar Medição (Com Transição Spring & Motion Blur) -->
     <div id="modalLeitura" class="fixed inset-0 z-50 hidden modal-blur-backdrop bg-slate-900/40 flex items-center justify-center p-4">
-        <div id="modalLeituraContent" class="modal-animated modal-closed bg-white dark:bg-slate-900 w-full max-w-xl rounded-[28px] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800">
+        <div id="modalLeituraContent" class="modal-animated modal-closed ios-card w-full max-w-xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800">
             
-            <div class="px-6 py-4 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                <h3 id="modalTitulo" class="font-extrabold text-slate-900 dark:text-white text-base flex items-center gap-2">
+            <div class="px-6 py-5 bg-transparent border-b border-slate-200/40 dark:border-slate-800 flex justify-between items-center">
+                <h3 id="modalTitulo" class="font-extrabold text-slate-900 dark:text-white text-base flex items-center gap-2.5">
                     <i class="fa-solid fa-plus-circle text-blue-600"></i> Registrar Nova Medição
                 </h3>
-                <button type="button" onclick="fecharModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center transition">
+                <button type="button" onclick="fecharModal()" class="w-8 h-8 rounded-full bg-slate-200/60 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center transition">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
@@ -247,47 +277,47 @@
                 <input type="hidden" id="editId" value="">
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Data da Medição (23:00)</label>
-                    <input type="date" id="dataLeitura" required class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 border-0 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500/50 focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Data da Medição (23:00)</label>
+                    <input type="date" id="dataLeitura" required class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-800/80 border-0 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500/50 focus:outline-none">
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                    <div class="p-3 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl border border-amber-100 dark:border-amber-900/50">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                    <div class="p-3.5 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl border border-amber-100 dark:border-amber-900/40">
                         <label class="block text-xs font-bold text-amber-900 dark:text-amber-400 mb-1">Água (Chave 01)</label>
-                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/50 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     </div>
 
-                    <div class="p-3 bg-slate-100/50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <div class="p-3.5 bg-slate-100/50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60">
                         <label class="block text-xs font-bold text-slate-900 dark:text-slate-200 mb-1">Gás (Chave 14)</label>
-                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-500 focus:outline-none">
+                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-500 focus:outline-none">
                     </div>
 
-                    <div class="p-3 bg-blue-50/50 dark:bg-blue-950/20 rounded-2xl border border-blue-100 dark:border-blue-900/50">
-                        <label class="block text-xs font-bold text-blue-900 dark:text-blue-400 mb-1">Energia ENEL (Chave 115)</label>
-                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/50 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <div class="p-3.5 bg-blue-50/50 dark:bg-blue-950/20 rounded-2xl border border-blue-100 dark:border-blue-900/40">
+                        <label class="block text-xs font-bold text-blue-900 dark:text-blue-400 mb-1">ENEL (Chave 115)</label>
+                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
 
-                    <div class="p-3 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+                    <div class="p-3.5 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/40">
                         <label class="block text-xs font-bold text-emerald-900 dark:text-emerald-400 mb-1">Solar 03 (Chave 06)</label>
-                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/50 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                     </div>
 
-                    <div class="p-3 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
+                    <div class="p-3.5 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100 dark:border-indigo-900/40">
                         <label class="block text-xs font-bold text-indigo-900 dark:text-indigo-400 mb-1">Solar 55 (Chave 06)</label>
-                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/50 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
 
-                    <div class="p-3 bg-purple-50/50 dark:bg-purple-950/20 rounded-2xl border border-purple-100 dark:border-purple-900/50">
+                    <div class="p-3.5 bg-purple-50/50 dark:bg-purple-950/20 rounded-2xl border border-purple-100 dark:border-purple-900/40">
                         <label class="block text-xs font-bold text-purple-900 dark:text-purple-400 mb-1">Gerador (% Tanque)</label>
-                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/50 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:outline-none">
                     </div>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-                    <button type="button" onclick="fecharModal()" class="oneui-pill px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition">
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200/40 dark:border-slate-800">
+                    <button type="button" onclick="fecharModal()" class="ios-pill px-6 py-3 bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition">
                         Cancelar
                     </button>
-                    <button type="submit" class="oneui-pill px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition">
+                    <button type="submit" class="ios-pill px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-500/25 transition">
                         Salvar Medição
                     </button>
                 </div>
@@ -297,8 +327,8 @@
 
     <!-- Modal WhatsApp -->
     <div id="modalWhatsApp" class="fixed inset-0 z-50 hidden modal-blur-backdrop bg-slate-900/40 flex items-center justify-center p-4">
-        <div id="modalWhatsAppContent" class="modal-animated modal-closed bg-white dark:bg-slate-900 w-full max-w-lg rounded-[28px] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800">
-            <div class="px-6 py-4 bg-emerald-600 text-white flex justify-between items-center">
+        <div id="modalWhatsAppContent" class="modal-animated modal-closed ios-card w-full max-w-lg shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800">
+            <div class="px-6 py-5 bg-emerald-600 text-white flex justify-between items-center">
                 <h3 class="font-bold text-base flex items-center gap-2">
                     <i class="fa-brands fa-whatsapp text-lg"></i> Mensagem para o Grupo
                 </h3>
@@ -308,13 +338,13 @@
             </div>
             <div class="p-6 space-y-4">
                 <p class="text-xs text-slate-500 dark:text-slate-400">Mensagem formatada com base na última leitura enviada:</p>
-                <textarea id="textoWhatsApp" rows="14" readonly class="w-full p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs font-mono text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none"></textarea>
+                <textarea id="textoWhatsApp" rows="14" readonly class="w-full p-4 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 rounded-2xl text-xs font-mono text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none"></textarea>
                 
                 <div class="flex justify-end gap-3">
-                    <button type="button" onclick="fecharModalWhatsApp()" class="oneui-pill px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold">
+                    <button type="button" onclick="fecharModalWhatsApp()" class="ios-pill px-6 py-3 bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold">
                         Fechar
                     </button>
-                    <button type="button" onclick="copiarTextoWhatsApp()" class="oneui-pill px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-500/20 flex items-center gap-2">
+                    <button type="button" onclick="copiarTextoWhatsApp()" class="ios-pill px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-500/25 flex items-center gap-2">
                         <i class="fa-solid fa-copy"></i> Copiar Mensagem
                     </button>
                 </div>
@@ -322,7 +352,7 @@
         </div>
     </div>
 
-    <footer class="py-4 text-center text-xs text-slate-400 dark:text-slate-500">
+    <footer class="py-6 text-center text-xs text-slate-400 dark:text-slate-500">
         <p>Sistema de Controle de Medições Diárias do Condomínio • Atualizações às 23:00</p>
     </footer>
 
@@ -374,14 +404,14 @@
             if (aba === 'estatisticas') {
                 cMedicoes.classList.add('hidden');
                 cEstatisticas.classList.remove('hidden');
-                btnEst.className = 'oneui-pill px-5 py-2.5 text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-500/20 flex items-center gap-2';
-                btnMed.className = 'oneui-pill px-5 py-2.5 text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center gap-2';
+                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2';
+                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 flex items-center gap-2';
                 calcularEstatisticas();
             } else {
                 cEstatisticas.classList.add('hidden');
                 cMedicoes.classList.remove('hidden');
-                btnMed.className = 'oneui-pill px-5 py-2.5 text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-500/20 flex items-center gap-2';
-                btnEst.className = 'oneui-pill px-5 py-2.5 text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center gap-2';
+                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2';
+                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 flex items-center gap-2';
             }
         }
 
@@ -513,21 +543,21 @@
                 }
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition border-b border-slate-100 dark:border-slate-800';
+                tr.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition border-b border-slate-200/40 dark:border-slate-800/60';
                 tr.innerHTML = `
-                    <td class="p-3 text-center font-bold text-slate-900 dark:text-white whitespace-nowrap">${dataBR}</td>
-                    <td class="p-3 font-mono">${formatarNumero(item.agua, 2)}</td>
-                    <td class="p-3 font-mono font-bold text-amber-800 dark:text-amber-400 bg-amber-50/40 dark:bg-amber-950/20">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
-                    <td class="p-3 font-mono">${formatarNumero(item.gas, 2)}</td>
-                    <td class="p-3 font-mono font-bold text-slate-800 dark:text-slate-200 bg-slate-100/60 dark:bg-slate-800/40">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
-                    <td class="p-3 font-mono">${formatarNumero(item.enel, 0)}</td>
-                    <td class="p-3 font-mono font-bold text-blue-800 dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/20">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
-                    <td class="p-3 font-mono">${formatarNumero(item.solar03, 0)}</td>
-                    <td class="p-3 font-mono font-bold text-emerald-800 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
-                    <td class="p-3 font-mono">${formatarNumero(item.solar55, 0)}</td>
-                    <td class="p-3 font-mono font-bold text-indigo-800 dark:text-indigo-400 bg-indigo-50/40 dark:bg-indigo-950/20">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
-                    <td class="p-3 font-mono font-bold text-purple-800 dark:text-purple-400 bg-purple-50/40 dark:bg-purple-950/20 text-center">${formatarNumero(item.gerador, 0)}%</td>
-                    <td class="p-3 text-center whitespace-nowrap">
+                    <td class="p-3.5 text-center font-bold text-slate-900 dark:text-white whitespace-nowrap">${dataBR}</td>
+                    <td class="p-3.5 font-mono">${formatarNumero(item.agua, 2)}</td>
+                    <td class="p-3.5 font-mono font-bold text-amber-800 dark:text-amber-400 bg-amber-50/40 dark:bg-amber-950/20">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
+                    <td class="p-3.5 font-mono">${formatarNumero(item.gas, 2)}</td>
+                    <td class="p-3.5 font-mono font-bold text-slate-800 dark:text-slate-200 bg-slate-100/60 dark:bg-slate-800/40">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
+                    <td class="p-3.5 font-mono">${formatarNumero(item.enel, 0)}</td>
+                    <td class="p-3.5 font-mono font-bold text-blue-800 dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/20">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
+                    <td class="p-3.5 font-mono">${formatarNumero(item.solar03, 0)}</td>
+                    <td class="p-3.5 font-mono font-bold text-emerald-800 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
+                    <td class="p-3.5 font-mono">${formatarNumero(item.solar55, 0)}</td>
+                    <td class="p-3.5 font-mono font-bold text-indigo-800 dark:text-indigo-400 bg-indigo-50/40 dark:bg-indigo-950/20">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
+                    <td class="p-3.5 font-mono font-bold text-purple-800 dark:text-purple-400 bg-purple-50/40 dark:bg-purple-950/20 text-center">${formatarNumero(item.gerador, 0)}%</td>
+                    <td class="p-3.5 text-center whitespace-nowrap">
                         <button type="button" onclick="editarLeitura('${item.id}')" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 p-1.5 transition" title="Editar">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
@@ -559,32 +589,32 @@
             const consumoSolar55 = medicoes.length > 1 ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
 
             cardsContainer.innerHTML = `
-                <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-4 shadow-sm">
+                <div class="ios-card p-5 shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Água (Chave 01)</p>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoAgua, 2)} <span class="text-xs font-normal text-slate-400">m³</span></h3>
                     <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-4 shadow-sm">
+                <div class="ios-card p-5 shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gás (Chave 14)</p>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoGas, 2)} <span class="text-xs font-normal text-slate-400">m³</span></h3>
                     <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-4 shadow-sm">
+                <div class="ios-card p-5 shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ENEL (Chave 115)</p>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoEnel, 0)} <span class="text-xs font-normal text-slate-400">kWh</span></h3>
                     <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-4 shadow-sm">
+                <div class="ios-card p-5 shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Solar 03 (Chave 06)</p>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoSolar03, 0)} <span class="text-xs font-normal text-slate-400">kWh</span></h3>
                     <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-4 shadow-sm">
+                <div class="ios-card p-5 shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Solar 55 (Chave 06)</p>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoSolar55, 0)} <span class="text-xs font-normal text-slate-400">kWh</span></h3>
                     <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
                 </div>
-                <div class="oneui-card bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-4 shadow-sm">
+                <div class="ios-card p-5 shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gerador Diesel</p>
                     <h3 class="text-base font-extrabold text-purple-600 dark:text-purple-400 mt-1 font-mono">${formatarNumero(ultimo.gerador, 0)}%</h3>
                     <p class="text-[10px] text-slate-400 mt-1">Nível Tanque</p>
@@ -645,15 +675,13 @@
                 return `${nomesMeses[mes] || mes}/${ano}`;
             }
 
-            // Últimos dados para o cálculo solar e gerador
             const ultimo = medicoes[medicoes.length - 1];
-            const penultimo = medicoes[medicoes.length - 2];
+            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : ultimo;
             const geradorAtual = ultimo.gerador;
             const solar03Ultimo = Math.max(0, ultimo.solar03 - penultimo.solar03);
             const solar55Ultimo = Math.max(0, ultimo.solar55 - penultimo.solar55);
             const totalSolarDia = solar03Ultimo + solar55Ultimo;
 
-            // Média diária geral
             const totalDias = medicoes.length - 1;
             const mediaAguaDia = totalDias > 0 ? somaAgua / totalDias : 0;
             const mediaEnelDia = totalDias > 0 ? somaEnel / totalDias : 0;
@@ -665,7 +693,6 @@
             document.getElementById('mesMaiorEnel').innerText = `${formatarMesAno(picoMesEnel)} (${formatarNumero(maxEnelVal, 0)} kWh)`;
             document.getElementById('totalRegistros').innerText = `${medicoes.length} dias cadastrados`;
 
-            // Preenchendo os novos cards
             document.getElementById('autonomiaGerador').innerText = `${geradorAtual}% (Estável)`;
             document.getElementById('solarGerado').innerText = `${formatarNumero(totalSolarDia, 0)} kWh (Soma 03 + 55)`;
             document.getElementById('mediaDiaria').innerText = `${formatarNumero(mediaAguaDia, 1)} m³ / ${formatarNumero(mediaEnelDia, 0)} kWh`;
@@ -693,7 +720,7 @@
             content.classList.add('modal-closed');
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 300);
+            }, 400);
         }
 
         function editarLeitura(id) {
@@ -839,7 +866,7 @@
             content.classList.add('modal-closed');
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 300);
+            }, 400);
         }
 
         function copiarTextoWhatsApp() {
