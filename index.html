@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    
     <style>
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', Roboto, sans-serif;
@@ -28,12 +28,11 @@
 
         /* Efeito de Vidro Profundo iOS / Liquid Glassmorphism */
         .ios-glass {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(35px) saturate(210%);
             -webkit-backdrop-filter: blur(35px) saturate(210%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
-
         .dark .ios-glass {
             background: rgba(22, 27, 34, 0.7);
             backdrop-filter: blur(40px) saturate(220%);
@@ -41,27 +40,24 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Transições com Motion Blur e Spring Physics estilo iOS */
+        /* Transições estilo iOS */
         .ios-motion {
             transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
                         opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                         filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity, filter;
         }
-
         .modal-blur-backdrop {
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             transition: all 0.4s ease;
         }
-
         .modal-closed {
             opacity: 0;
             filter: blur(10px);
             transform: translateY(40px) scale(0.92);
             pointer-events: none;
         }
-
         .modal-open {
             opacity: 1;
             filter: blur(0px);
@@ -69,56 +65,53 @@
             pointer-events: auto;
         }
 
-        /* Cards Estilo Widget do iOS */
+        /* Cards Estilo Widget do iOS - Mais vivos no modo claro */
         .ios-card {
-            border-radius: 32px;
-            background: rgba(255, 255, 255, 0.85);
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 252, 0.9) 100%);
             backdrop-filter: blur(20px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(219, 234, 254, 0.8);
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
         }
-
         .dark .ios-card {
             background: rgba(30, 35, 45, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-
         .ios-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(59, 130, 246, 0.15);
         }
 
         .ios-pill {
             border-radius: 9999px;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
         .ios-pill:active {
             transform: scale(0.94);
         }
     </style>
 </head>
-<body class="bg-[#F2F2F7] dark:bg-[#000000] text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
+<body class="bg-[#EAEFF5] dark:bg-[#000000] text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
 
     <!-- Header Glassmorphism Estilo iOS -->
-    <header class="sticky top-0 z-40 ios-glass border-b border-slate-200/40 dark:border-slate-800/60 shadow-sm">
+    <header class="sticky top-0 z-40 ios-glass border-b border-blue-200/50 dark:border-slate-800/60 shadow-md">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3.5">
-                <div class="w-12 h-12 bg-blue-600 text-white rounded-[20px] flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/30">
+                <div class="w-12 h-12 bg-gradient-to-tr from-blue-600 to-indigo-500 text-white rounded-[20px] flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/30">
                     <i class="fa-solid fa-gauge-high"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Medidores do Condomínio</h1>
-                    <p class="text-xs font-medium text-slate-400">Controle Diário (23:00) • Água, Gás, ENEL, Solar e Gerador</p>
+                    <h1 class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Medidores do Condomínio</h1>
+                    <p class="text-xs font-semibold text-blue-600 dark:text-blue-400">Controle Diário (23:00) • Água, Gás, ENEL, Solar e Gerador</p>
                 </div>
             </div>
             
             <div class="flex items-center gap-3 w-full sm:w-auto">
-                <button type="button" onclick="alternarModoNoturno()" class="ios-pill w-11 h-11 bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-yellow-400 flex items-center justify-center shadow-sm transition" title="Alternar Modo Noturno">
+                <button type="button" onclick="alternarModoNoturno()" class="ios-pill w-11 h-11 bg-white dark:bg-slate-800 text-amber-500 dark:text-yellow-400 flex items-center justify-center shadow-md border border-slate-200 dark:border-slate-700 transition" title="Alternar Modo Noturno">
                     <i id="iconeModoNoturno" class="fa-solid fa-moon text-sm"></i>
                 </button>
-
                 <button type="button" onclick="abrirModalNovaLeitura()" class="flex-1 sm:flex-initial ios-pill bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-plus"></i> Nova Medição
                 </button>
@@ -130,11 +123,11 @@
     </header>
 
     <!-- Sistema de Abas (Navegação Estilo iOS Segmented Control) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex gap-2 w-full">
-        <button onclick="alternarAba('medicoes')" id="tabMedicoes" class="ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex gap-3 w-full">
+        <button onclick="alternarAba('medicoes')" id="tabMedicoes" class="ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2">
             <i class="fa-solid fa-table-list"></i> Medições & Histórico
         </button>
-        <button onclick="alternarAba('estatisticas')" id="tabEstatisticas" class="ios-pill px-6 py-3 text-xs font-bold bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 flex items-center gap-2">
+        <button onclick="alternarAba('estatisticas')" id="tabEstatisticas" class="ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-chart-pie"></i> Análises & Estatísticas
         </button>
     </div>
@@ -151,14 +144,14 @@
 
             <!-- Tabela de Histórico -->
             <div class="ios-card overflow-hidden shadow-xl">
-                <div class="p-6 border-b border-slate-200/40 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="p-6 border-b border-blue-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Histórico de Medições</h2>
-                        <p class="text-xs text-slate-400">Listagem filtrada por mês e busca por dia</p>
+                        <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Listagem filtrada por mês e busca por dia</p>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                        <select id="filtroMes" onchange="renderizarTabela()" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50 border-0">
+                        <select id="filtroMes" onchange="renderizarTabela()" class="px-4 py-2.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-200 dark:border-slate-700 shadow-sm">
                             <!-- Preenchido via JS -->
                         </select>
 
@@ -166,7 +159,7 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                                 <i class="fa-solid fa-magnifying-glass text-xs"></i>
                             </span>
-                            <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Buscar dia..." class="w-full pl-9 pr-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 border-0">
+                            <input type="text" id="filtroData" onkeyup="renderizarTabela()" placeholder="Buscar dia..." class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 border border-slate-200 dark:border-slate-700 shadow-sm">
                         </div>
                     </div>
                 </div>
@@ -174,31 +167,31 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-50/80 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold text-[10px] border-b border-slate-200/40 dark:border-slate-800">
+                            <tr class="bg-blue-50/70 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-bold text-[10px] border-b border-blue-100 dark:border-slate-800">
                                 <th class="p-3.5 text-center" rowspan="2">Data</th>
-                                <th class="p-3.5 text-center bg-amber-50/60 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400" colspan="2">Água (01)</th>
-                                <th class="p-3.5 text-center bg-slate-100/60 dark:bg-slate-800/60 text-slate-800 dark:text-slate-300" colspan="2">Gás (14)</th>
-                                <th class="p-3.5 text-center bg-blue-50/60 dark:bg-blue-950/30 text-blue-800 dark:text-blue-400" colspan="2">ENEL (115)</th>
-                                <th class="p-3.5 text-center bg-emerald-50/60 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-400" colspan="2">Solar 03 (06)</th>
-                                <th class="p-3.5 text-center bg-indigo-50/60 dark:bg-indigo-950/30 text-indigo-800 dark:text-indigo-400" colspan="2">Solar 55 (06)</th>
-                                <th class="p-3.5 text-center bg-purple-50/60 dark:bg-purple-950/30 text-purple-800 dark:text-purple-400" colspan="1">Gerador</th>
+                                <th class="p-3.5 text-center bg-amber-100/60 dark:bg-amber-950/35 text-amber-900 dark:text-amber-400" colspan="2">Água (01)</th>
+                                <th class="p-3.5 text-center bg-slate-200/60 dark:bg-slate-800/60 text-slate-900 dark:text-slate-300" colspan="2">Gás (14)</th>
+                                <th class="p-3.5 text-center bg-blue-100/60 dark:bg-blue-950/35 text-blue-900 dark:text-blue-400" colspan="2">ENEL (115)</th>
+                                <th class="p-3.5 text-center bg-emerald-100/60 dark:bg-emerald-950/35 text-emerald-900 dark:text-emerald-400" colspan="2">Solar 03 (06)</th>
+                                <th class="p-3.5 text-center bg-indigo-100/60 dark:bg-indigo-950/35 text-indigo-900 dark:text-indigo-400" colspan="2">Solar 55 (06)</th>
+                                <th class="p-3.5 text-center bg-purple-100/60 dark:bg-purple-950/35 text-purple-900 dark:text-purple-400" rowspan="1">Gerador</th>
                                 <th class="p-3.5 text-center" rowspan="2">Ações</th>
                             </tr>
-                            <tr class="bg-slate-50/40 dark:bg-slate-800/20 text-slate-600 dark:text-slate-400 border-b border-slate-200/40 dark:border-slate-800 text-[10px] font-bold">
+                            <tr class="bg-blue-50/40 dark:bg-slate-800/20 text-slate-700 dark:text-slate-400 border-b border-blue-100 dark:border-slate-800 text-[10px] font-bold">
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-amber-50/40 dark:bg-amber-950/20 text-amber-900 dark:text-amber-300">Consumo</th>
+                                <th class="p-3 bg-amber-100/40 dark:bg-amber-950/20 text-amber-900 dark:text-amber-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-slate-100/40 dark:bg-slate-800/40 text-slate-900 dark:text-slate-200">Consumo</th>
+                                <th class="p-3 bg-slate-200/40 dark:bg-slate-800/40 text-slate-900 dark:text-slate-200">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-blue-50/40 dark:bg-blue-950/20 text-blue-900 dark:text-blue-300">Consumo</th>
+                                <th class="p-3 bg-blue-100/40 dark:bg-blue-950/20 text-blue-900 dark:text-blue-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-emerald-50/40 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-300">Consumo</th>
+                                <th class="p-3 bg-emerald-100/40 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-indigo-50/40 dark:bg-indigo-950/20 text-indigo-900 dark:text-indigo-300">Consumo</th>
-                                <th class="p-3 bg-purple-50/40 dark:bg-purple-950/20 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
+                                <th class="p-3 bg-indigo-100/40 dark:bg-indigo-950/20 text-indigo-900 dark:text-indigo-300">Consumo</th>
+                                <th class="p-3 bg-purple-100/40 dark:bg-purple-950/20 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaCorpo" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium text-slate-700 dark:text-slate-300">
+                        <tbody id="tabelaCorpo" class="divide-y divide-blue-50 dark:divide-slate-800/60 font-medium text-slate-700 dark:text-slate-300">
                             <!-- Preenchido via JavaScript -->
                         </tbody>
                     </table>
@@ -206,47 +199,110 @@
             </div>
         </div>
 
-        <!-- ABA 2: ESTATÍSTICAS & ANÁLISES -->
+        <!-- ABA 2: ESTATÍSTICAS & ANÁLISES (Com elementos gráficos e cores vivas) -->
         <div id="containerEstatisticas" class="hidden space-y-6 ios-motion">
+            <!-- Grid de Indicadores Principais com Barras Gráficas Coloridas -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🏆 Maior Consumo Diário (Água)</p>
-                    <h3 id="picoAgua" class="text-lg font-extrabold text-amber-600 dark:text-amber-400 mt-1 font-mono">-</h3>
-                </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🏆 Maior Consumo Diário (Gás)</p>
-                    <h3 id="picoGas" class="text-lg font-extrabold text-slate-700 dark:text-slate-300 mt-1 font-mono">-</h3>
-                </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🏆 Maior Consumo Diário (ENEL)</p>
-                    <h3 id="picoEnel" class="text-lg font-extrabold text-blue-600 dark:text-blue-400 mt-1 font-mono">-</h3>
-                </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📅 Mês de Maior Consumo (Água)</p>
-                    <h3 id="mesMaiorAgua" class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 font-mono">-</h3>
-                </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📅 Mês de Maior Consumo (ENEL)</p>
-                    <h3 id="mesMaiorEnel" class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400 mt-1 font-mono">-</h3>
-                </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📊 Total Registros Históricos</p>
-                    <h3 id="totalRegistros" class="text-lg font-extrabold text-purple-600 dark:text-purple-400 mt-1 font-mono">-</h3>
+                
+                <!-- Pico Água -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-wider">🏆 Maior Consumo Diário (Água)</p>
+                        <span class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-600 flex items-center justify-center text-xs"><i class="fa-solid fa-droplet"></i></span>
+                    </div>
+                    <h3 id="picoAgua" class="text-xl font-black text-amber-800 dark:text-amber-400 mt-2 font-mono">-</h3>
+                    <div class="mt-3 w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div id="barraAgua" class="bg-amber-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
                 </div>
 
-                <!-- Cards de Super Análises Avançadas -->
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">🔋 Autonomia Estimada do Gerador</p>
-                    <h3 id="autonomiaGerador" class="text-lg font-extrabold text-teal-600 dark:text-teal-400 mt-1 font-mono">-</h3>
+                <!-- Pico Gás -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-slate-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">🏆 Maior Consumo Diário (Gás)</p>
+                        <span class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs"><i class="fa-solid fa-fire"></i></span>
+                    </div>
+                    <h3 id="picoGas" class="text-xl font-black text-slate-800 dark:text-slate-200 mt-2 font-mono">-</h3>
+                    <div class="mt-3 w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div id="barraGas" class="bg-slate-600 dark:bg-slate-400 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
                 </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">☀️ Total Solar Gerado (Último Dia)</p>
-                    <h3 id="solarGerado" class="text-lg font-extrabold text-emerald-500 dark:text-emerald-400 mt-1 font-mono">-</h3>
+
+                <!-- Pico ENEL -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-blue-700 dark:text-blue-400 uppercase tracking-wider">🏆 Maior Consumo Diário (ENEL)</p>
+                        <span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-600 flex items-center justify-center text-xs"><i class="fa-solid fa-bolt"></i></span>
+                    </div>
+                    <h3 id="picoEnel" class="text-xl font-black text-blue-800 dark:text-blue-400 mt-2 font-mono">-</h3>
+                    <div class="mt-3 w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div id="barraEnel" class="bg-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
                 </div>
-                <div class="ios-card p-6 shadow-xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">📉 Média Diária (Água / ENEL)</p>
-                    <h3 id="mediaDiaria" class="text-lg font-extrabold text-blue-500 dark:text-blue-300 mt-1 font-mono">-</h3>
+
+                <!-- Mês Maior Água -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">📅 Mês de Maior Consumo (Água)</p>
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-days"></i></span>
+                    </div>
+                    <h3 id="mesMaiorAgua" class="text-xl font-black text-emerald-800 dark:text-emerald-400 mt-2 font-mono">-</h3>
                 </div>
+
+                <!-- Mês Maior ENEL -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">📅 Mês de Maior Consumo (ENEL)</p>
+                        <span class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-check"></i></span>
+                    </div>
+                    <h3 id="mesMaiorEnel" class="text-xl font-black text-indigo-800 dark:text-indigo-400 mt-2 font-mono">-</h3>
+                </div>
+
+                <!-- Total de Registros -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-purple-700 dark:text-purple-400 uppercase tracking-wider">📊 Total Registros Históricos</p>
+                        <span class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-950/50 text-purple-600 flex items-center justify-center text-xs"><i class="fa-solid fa-database"></i></span>
+                    </div>
+                    <h3 id="totalRegistros" class="text-xl font-black text-purple-800 dark:text-purple-400 mt-2 font-mono">-</h3>
+                </div>
+
+                <!-- Autonomia do Gerador (Com Gráfico Gráfico Circular/Barra) -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-teal-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-teal-700 dark:text-teal-400 uppercase tracking-wider">🔋 Autonomia Estimada do Gerador</p>
+                        <span class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-950/50 text-teal-600 flex items-center justify-center text-xs"><i class="fa-solid fa-gas-pump"></i></span>
+                    </div>
+                    <h3 id="autonomiaGerador" class="text-xl font-black text-teal-800 dark:text-teal-400 mt-2 font-mono">-</h3>
+                </div>
+
+                <!-- Total Solar Gerado -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">☀️ Total Solar Gerado (Último Dia)</p>
+                        <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 flex items-center justify-center text-xs"><i class="fa-solid fa-sun"></i></span>
+                    </div>
+                    <h3 id="solarGerado" class="text-xl font-black text-emerald-800 dark:text-emerald-400 mt-2 font-mono">-</h3>
+                </div>
+
+                <!-- Média Diária -->
+                <div class="ios-card p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-[10px] font-extrabold text-blue-700 dark:text-blue-400 uppercase tracking-wider">📉 Média Diária (Água / ENEL)</p>
+                        <span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-600 flex items-center justify-center text-xs"><i class="fa-solid fa-chart-line"></i></span>
+                    </div>
+                    <h3 id="mediaDiaria" class="text-xl font-black text-blue-800 dark:text-blue-300 mt-2 font-mono">-</h3>
+                </div>
+
             </div>
         </div>
 
@@ -255,66 +311,60 @@
     <!-- Toast Estilo Dynamic Island / iOS Notification -->
     <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 translate-y-20 opacity-0 pointer-events-none">
         <div class="ios-glass px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 border border-white/20">
-            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
-            <span id="toastMessage" class="text-xs font-semibold tracking-wide">Ação realizada com sucesso!</span>
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+            <span id="toastMessage" class="text-xs font-semibold tracking-wide text-slate-800 dark:text-slate-100">Ação realizada com sucesso!</span>
         </div>
     </div>
 
-    <!-- Modal Nova / Editar Medição (Com Transição Spring & Motion Blur) -->
+    <!-- Modal Nova / Editar Medição -->
     <div id="modalLeitura" class="fixed inset-0 z-50 hidden modal-blur-backdrop bg-slate-900/40 flex items-center justify-center p-4">
         <div id="modalLeituraContent" class="modal-animated modal-closed ios-card w-full max-w-xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800">
-            
-            <div class="px-6 py-5 bg-transparent border-b border-slate-200/40 dark:border-slate-800 flex justify-between items-center">
-                <h3 id="modalTitulo" class="font-extrabold text-slate-900 dark:text-white text-base flex items-center gap-2.5">
-                    <i class="fa-solid fa-plus-circle text-blue-600"></i> Registrar Nova Medição
+            <div class="px-6 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex justify-between items-center">
+                <h3 id="modalTitulo" class="font-extrabold text-base flex items-center gap-2.5">
+                    <i class="fa-solid fa-plus-circle text-white"></i> Registrar Nova Medição
                 </h3>
-                <button type="button" onclick="fecharModal()" class="w-8 h-8 rounded-full bg-slate-200/60 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center transition">
+                <button type="button" onclick="fecharModal()" class="w-8 h-8 rounded-full bg-white/20 text-white hover:bg-white/40 flex items-center justify-center transition">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
-            
+
             <form id="formLeitura" onsubmit="salvarLeitura(event)" class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
                 <input type="hidden" id="editId" value="">
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Data da Medição (23:00)</label>
-                    <input type="date" id="dataLeitura" required class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-800/80 border-0 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500/50 focus:outline-none">
+                    <input type="date" id="dataLeitura" required class="w-full px-4 py-3 bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500/50 focus:outline-none shadow-sm">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                    <div class="p-3.5 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl border border-amber-100 dark:border-amber-900/40">
+                    <div class="p-3.5 bg-amber-50/80 dark:bg-amber-950/20 rounded-2xl border border-amber-200/70 dark:border-amber-900/40">
                         <label class="block text-xs font-bold text-amber-900 dark:text-amber-400 mb-1">Água (Chave 01)</label>
-                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        <input type="number" step="0.01" id="aguaLeitura" placeholder="Ex: 79139.77" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm">
                     </div>
-
-                    <div class="p-3.5 bg-slate-100/50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60">
+                    <div class="p-3.5 bg-slate-100/80 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60">
                         <label class="block text-xs font-bold text-slate-900 dark:text-slate-200 mb-1">Gás (Chave 14)</label>
-                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-500 focus:outline-none">
+                        <input type="number" step="0.01" id="gasLeitura" placeholder="Ex: 4237.75" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-500 focus:outline-none shadow-sm">
                     </div>
-
-                    <div class="p-3.5 bg-blue-50/50 dark:bg-blue-950/20 rounded-2xl border border-blue-100 dark:border-blue-900/40">
+                    <div class="p-3.5 bg-blue-50/80 dark:bg-blue-950/20 rounded-2xl border border-blue-200/70 dark:border-blue-900/40">
                         <label class="block text-xs font-bold text-blue-900 dark:text-blue-400 mb-1">ENEL (Chave 115)</label>
-                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <input type="number" step="1" id="enelLeitura" placeholder="Ex: 109116" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
                     </div>
-
-                    <div class="p-3.5 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/40">
+                    <div class="p-3.5 bg-emerald-50/80 dark:bg-emerald-950/20 rounded-2xl border border-emerald-200/70 dark:border-emerald-900/40">
                         <label class="block text-xs font-bold text-emerald-900 dark:text-emerald-400 mb-1">Solar 03 (Chave 06)</label>
-                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <input type="number" step="1" id="solar03Leitura" placeholder="Ex: 97433" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm">
                     </div>
-
-                    <div class="p-3.5 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100 dark:border-indigo-900/40">
+                    <div class="p-3.5 bg-indigo-50/80 dark:bg-indigo-950/20 rounded-2xl border border-indigo-200/70 dark:border-indigo-900/40">
                         <label class="block text-xs font-bold text-indigo-900 dark:text-indigo-400 mb-1">Solar 55 (Chave 06)</label>
-                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <input type="number" step="1" id="solar55Leitura" placeholder="Ex: 47482" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
                     </div>
-
-                    <div class="p-3.5 bg-purple-50/50 dark:bg-purple-950/20 rounded-2xl border border-purple-100 dark:border-purple-900/40">
+                    <div class="p-3.5 bg-purple-50/80 dark:bg-purple-950/20 rounded-2xl border border-purple-200/70 dark:border-purple-900/40">
                         <label class="block text-xs font-bold text-purple-900 dark:text-purple-400 mb-1">Gerador (% Tanque)</label>
-                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/40 rounded-xl text-sm font-semibold text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
                     </div>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200/40 dark:border-slate-800">
-                    <button type="button" onclick="fecharModal()" class="ios-pill px-6 py-3 bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition">
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-200/60 dark:border-slate-800">
+                    <button type="button" onclick="fecharModal()" class="ios-pill px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition">
                         Cancelar
                     </button>
                     <button type="submit" class="ios-pill px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-500/25 transition">
@@ -338,10 +388,10 @@
             </div>
             <div class="p-6 space-y-4">
                 <p class="text-xs text-slate-500 dark:text-slate-400">Mensagem formatada com base na última leitura enviada:</p>
-                <textarea id="textoWhatsApp" rows="14" readonly class="w-full p-4 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 rounded-2xl text-xs font-mono text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none"></textarea>
+                <textarea id="textoWhatsApp" rows="14" readonly class="w-full p-4 bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 rounded-2xl text-xs font-mono text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none shadow-sm"></textarea>
                 
                 <div class="flex justify-end gap-3">
-                    <button type="button" onclick="fecharModalWhatsApp()" class="ios-pill px-6 py-3 bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold">
+                    <button type="button" onclick="fecharModalWhatsApp()" class="ios-pill px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold">
                         Fechar
                     </button>
                     <button type="button" onclick="copiarTextoWhatsApp()" class="ios-pill px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-500/25 flex items-center gap-2">
@@ -352,7 +402,7 @@
         </div>
     </div>
 
-    <footer class="py-6 text-center text-xs text-slate-400 dark:text-slate-500">
+    <footer class="py-6 text-center text-xs text-slate-500 dark:text-slate-400 font-medium">
         <p>Sistema de Controle de Medições Diárias do Condomínio • Atualizações às 23:00</p>
     </footer>
 
@@ -404,14 +454,14 @@
             if (aba === 'estatisticas') {
                 cMedicoes.classList.add('hidden');
                 cEstatisticas.classList.remove('hidden');
-                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2';
-                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 flex items-center gap-2';
+                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2';
+                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2';
                 calcularEstatisticas();
             } else {
                 cEstatisticas.classList.add('hidden');
                 cMedicoes.classList.remove('hidden');
-                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2';
-                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 flex items-center gap-2';
+                btnMed.className = 'ios-pill px-6 py-3 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center gap-2';
+                btnEst.className = 'ios-pill px-6 py-3 text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2';
             }
         }
 
@@ -468,7 +518,7 @@
                 const [ano, mes] = anoMes.split('-');
                 const option = document.createElement('option');
                 option.value = anoMes;
-                option.textContent = `${nomesMeses[mes]} / ${ano}`;
+                option.textContent = `${nomesMeses[mes] || mes} / ${ano}`;
                 selectMes.appendChild(option);
             });
 
@@ -491,9 +541,9 @@
 
             toastMsg.innerText = mensagem;
             if (tipo === 'erro') {
-                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-400 text-base';
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-500 text-base';
             } else {
-                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400 text-base';
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-500 text-base';
             }
 
             toast.classList.remove('translate-y-20', 'opacity-0');
@@ -532,7 +582,6 @@
                 const dataBR = formatarDataBR(item.data);
 
                 let cAgua = '-', cGas = '-', cEnel = '-', cSolar03 = '-', cSolar55 = '-';
-
                 if (indexReal > 0) {
                     const anterior = medicoes[indexReal - 1];
                     cAgua = Math.max(0, item.agua - anterior.agua);
@@ -543,27 +592,25 @@
                 }
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition border-b border-slate-200/40 dark:border-slate-800/60';
+                tr.className = 'hover:bg-blue-50/50 dark:hover:bg-slate-800/40 transition border-b border-blue-50 dark:border-slate-800/50';
                 tr.innerHTML = `
-                    <td class="p-3.5 text-center font-bold text-slate-900 dark:text-white whitespace-nowrap">${dataBR}</td>
-                    <td class="p-3.5 font-mono">${formatarNumero(item.agua, 2)}</td>
-                    <td class="p-3.5 font-mono font-bold text-amber-800 dark:text-amber-400 bg-amber-50/40 dark:bg-amber-950/20">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
-                    <td class="p-3.5 font-mono">${formatarNumero(item.gas, 2)}</td>
-                    <td class="p-3.5 font-mono font-bold text-slate-800 dark:text-slate-200 bg-slate-100/60 dark:bg-slate-800/40">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
-                    <td class="p-3.5 font-mono">${formatarNumero(item.enel, 0)}</td>
-                    <td class="p-3.5 font-mono font-bold text-blue-800 dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/20">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
-                    <td class="p-3.5 font-mono">${formatarNumero(item.solar03, 0)}</td>
-                    <td class="p-3.5 font-mono font-bold text-emerald-800 dark:text-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
-                    <td class="p-3.5 font-mono">${formatarNumero(item.solar55, 0)}</td>
-                    <td class="p-3.5 font-mono font-bold text-indigo-800 dark:text-indigo-400 bg-indigo-50/40 dark:bg-indigo-950/20">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
-                    <td class="p-3.5 font-mono font-bold text-purple-800 dark:text-purple-400 bg-purple-50/40 dark:bg-purple-950/20 text-center">${formatarNumero(item.gerador, 0)}%</td>
-                    <td class="p-3.5 text-center whitespace-nowrap">
-                        <button type="button" onclick="editarLeitura('${item.id}')" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 p-1.5 transition" title="Editar">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
-                        <button type="button" onclick="excluirLeitura('${item.id}')" class="text-rose-600 dark:text-rose-400 hover:text-rose-800 p-1.5 transition" title="Excluir">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                    <td class="p-3.5 text-center font-bold text-slate-800 dark:text-slate-200">${dataBR}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.agua, 2)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-amber-600 dark:text-amber-400 bg-amber-50/30 dark:bg-amber-950/10">${indexReal > 0 ? formatarNumero(cAgua, 2) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.gas, 2)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-slate-700 dark:text-slate-300 bg-slate-100/30 dark:bg-slate-800/30">${indexReal > 0 ? formatarNumero(cGas, 2) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.enel, 0)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50/30 dark:bg-blue-950/10">${indexReal > 0 ? formatarNumero(cEnel, 0) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.solar03, 0)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50/30 dark:bg-emerald-950/10">${indexReal > 0 ? formatarNumero(cSolar03, 0) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono text-slate-600 dark:text-slate-300">${formatarNumero(item.solar55, 0)}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/30 dark:bg-indigo-950/10">${indexReal > 0 ? formatarNumero(cSolar55, 0) : '-'}</td>
+                    <td class="p-3.5 text-center font-mono font-bold text-purple-600 dark:text-purple-400 bg-purple-50/30 dark:bg-purple-950/10">${item.gerador}%</td>
+                    <td class="p-3.5 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="editarLeitura('${item.id}')" class="w-7 h-7 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 hover:bg-blue-200 transition flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                            <button onclick="excluirLeitura('${item.id}')" class="w-7 h-7 rounded-xl bg-rose-100 dark:bg-rose-950/50 text-rose-600 hover:bg-rose-200 transition flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -571,139 +618,140 @@
         }
 
         function atualizarResumoCards() {
-            const cardsContainer = document.getElementById('resumoCards');
-            if (!cardsContainer) return;
-
-            if (medicoes.length === 0) {
-                cardsContainer.innerHTML = '';
+            const container = document.getElementById('resumoCards');
+            if (!container || medicoes.length === 0) {
+                if (container) container.innerHTML = '<p class="text-xs text-slate-400 col-span-full text-center py-4">Nenhuma medição registrada.</p>';
                 return;
             }
 
             const ultimo = medicoes[medicoes.length - 1];
-            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : ultimo;
+            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : null;
 
-            const consumoAgua = medicoes.length > 1 ? Math.max(0, ultimo.agua - penultimo.agua) : 0;
-            const consumoGas = medicoes.length > 1 ? Math.max(0, ultimo.gas - penultimo.gas) : 0;
-            const consumoEnel = medicoes.length > 1 ? Math.max(0, ultimo.enel - penultimo.enel) : 0;
-            const consumoSolar03 = medicoes.length > 1 ? Math.max(0, ultimo.solar03 - penultimo.solar03) : 0;
-            const consumoSolar55 = medicoes.length > 1 ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
+            let cAgua = penultimo ? Math.max(0, ultimo.agua - penultimo.agua) : 0;
+            let cGas = penultimo ? Math.max(0, ultimo.gas - penultimo.gas) : 0;
+            let cEnel = penultimo ? Math.max(0, ultimo.enel - penultimo.enel) : 0;
+            let cSolar03 = penultimo ? Math.max(0, ultimo.solar03 - penultimo.solar03) : 0;
+            let cSolar55 = penultimo ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
 
-            cardsContainer.innerHTML = `
-                <div class="ios-card p-5 shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Água (Chave 01)</p>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoAgua, 2)} <span class="text-xs font-normal text-slate-400">m³</span></h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
+            container.innerHTML = `
+                <div class="ios-card p-4 shadow-md border-amber-200/80 bg-gradient-to-br from-amber-50/90 to-amber-100/40">
+                    <p class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-droplet text-amber-500"></i> Água (Último)</p>
+                    <h4 class="text-lg font-black text-amber-900 mt-1 font-mono">${formatarNumero(cAgua, 2)} L</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.agua, 2)}</p>
                 </div>
-                <div class="ios-card p-5 shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gás (Chave 14)</p>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoGas, 2)} <span class="text-xs font-normal text-slate-400">m³</span></h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
+                <div class="ios-card p-4 shadow-md border-slate-200 bg-gradient-to-br from-slate-100/90 to-slate-200/40">
+                    <p class="text-[10px] font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-fire text-slate-500"></i> Gás (Último)</p>
+                    <h4 class="text-lg font-black text-slate-900 mt-1 font-mono">${formatarNumero(cGas, 2)} m³</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.gas, 2)}</p>
                 </div>
-                <div class="ios-card p-5 shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ENEL (Chave 115)</p>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoEnel, 0)} <span class="text-xs font-normal text-slate-400">kWh</span></h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-blue-200/80 bg-gradient-to-br from-blue-50/90 to-blue-100/40">
+                    <p class="text-[10px] font-extrabold text-blue-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-bolt text-blue-500"></i> ENEL (Último)</p>
+                    <h4 class="text-lg font-black text-blue-900 mt-1 font-mono">${formatarNumero(cEnel, 0)} kWh</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.enel, 0)}</p>
                 </div>
-                <div class="ios-card p-5 shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Solar 03 (Chave 06)</p>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoSolar03, 0)} <span class="text-xs font-normal text-slate-400">kWh</span></h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-emerald-200/80 bg-gradient-to-br from-emerald-50/90 to-emerald-100/40">
+                    <p class="text-[10px] font-extrabold text-emerald-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-emerald-500"></i> Solar 03</p>
+                    <h4 class="text-lg font-black text-emerald-900 mt-1 font-mono">${formatarNumero(cSolar03, 0)}</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.solar03, 0)}</p>
                 </div>
-                <div class="ios-card p-5 shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Solar 55 (Chave 06)</p>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white mt-1 font-mono">${formatarNumero(consumoSolar55, 0)} <span class="text-xs font-normal text-slate-400">kWh</span></h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
+                <div class="ios-card p-4 shadow-md border-indigo-200/80 bg-gradient-to-br from-indigo-50/90 to-indigo-100/40">
+                    <p class="text-[10px] font-extrabold text-indigo-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-sun text-indigo-500"></i> Solar 55</p>
+                    <h4 class="text-lg font-black text-indigo-900 mt-1 font-mono">${formatarNumero(cSolar55, 0)}</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Leitura: ${formatarNumero(ultimo.solar55, 0)}</p>
                 </div>
-                <div class="ios-card p-5 shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gerador Diesel</p>
-                    <h3 class="text-base font-extrabold text-purple-600 dark:text-purple-400 mt-1 font-mono">${formatarNumero(ultimo.gerador, 0)}%</h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Nível Tanque</p>
+                <div class="ios-card p-4 shadow-md border-purple-200/80 bg-gradient-to-br from-purple-50/90 to-purple-100/40">
+                    <p class="text-[10px] font-extrabold text-purple-700 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-gas-pump text-purple-500"></i> Gerador</p>
+                    <h4 class="text-lg font-black text-purple-900 mt-1 font-mono">${ultimo.gerador}% Tanque</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Data: ${formatarDataBR(ultimo.data)}</p>
                 </div>
             `;
         }
 
         function calcularEstatisticas() {
-            if (medicoes.length < 2) return;
+            if (medicoes.length === 0) return;
 
-            let maiorAgua = { valor: 0, data: '' };
-            let maiorGas = { valor: 0, data: '' };
-            let maiorEnel = { valor: 0, data: '' };
-            let mesAguaMap = {};
-            let mesEnelMap = {};
-            let somaAgua = 0;
-            let somaEnel = 0;
+            let maiorAgua = 0, dataMaiorAgua = '-';
+            let maiorGas = 0, dataMaiorGas = '-';
+            let maiorEnel = 0, dataMaiorEnel = '-';
+
+            const consumoMensalAgua = {};
+            const consumoMensalEnel = {};
 
             for (let i = 1; i < medicoes.length; i++) {
                 const atual = medicoes[i];
                 const anterior = medicoes[i - 1];
-                const dataBR = formatarDataBR(atual.data);
-                const anoMes = atual.data.substring(0, 7);
-
                 const cAgua = Math.max(0, atual.agua - anterior.agua);
                 const cGas = Math.max(0, atual.gas - anterior.gas);
                 const cEnel = Math.max(0, atual.enel - anterior.enel);
 
-                somaAgua += cAgua;
-                somaEnel += cEnel;
+                const mesAno = atual.data.substring(0, 7);
+                consumoMensalAgua[mesAno] = (consumoMensalAgua[mesAno] || 0) + cAgua;
+                consumoMensalEnel[mesAno] = (consumoMensalEnel[mesAno] || 0) + cEnel;
 
-                if (cAgua > maiorAgua.valor) maiorAgua = { valor: cAgua, data: dataBR };
-                if (cGas > maiorGas.valor) maiorGas = { valor: cGas, data: dataBR };
-                if (cEnel > maiorEnel.valor) maiorEnel = { valor: cEnel, data: dataBR };
-
-                if (!mesAguaMap[anoMes]) mesAguaMap[anoMes] = 0;
-                mesAguaMap[anoMes] += cAgua;
-
-                if (!mesEnelMap[anoMes]) mesEnelMap[anoMes] = 0;
-                mesEnelMap[anoMes] += cEnel;
+                if (cAgua > maiorAgua) {
+                    maiorAgua = cAgua;
+                    dataMaiorAgua = formatarDataBR(atual.data);
+                }
+                if (cGas > maiorGas) {
+                    maiorGas = cGas;
+                    dataMaiorGas = formatarDataBR(atual.data);
+                }
+                if (cEnel > maiorEnel) {
+                    maiorEnel = cEnel;
+                    dataMaiorEnel = formatarDataBR(atual.data);
+                }
             }
 
-            let picoMesAgua = '', maxAguaVal = 0;
-            for (const [m, v] of Object.entries(mesAguaMap)) {
-                if (v > maxAguaVal) { maxAguaVal = v; picoMesAgua = m; }
+            // Encontrar meses de maior consumo
+            let mesMaxAgua = '-', maxAguaVal = 0;
+            for (let [mes, val] of Object.entries(consumoMensalAgua)) {
+                if (val > maxAguaVal) { maxAguaVal = val; mesMaxAgua = mes; }
             }
 
-            let picoMesEnel = '', maxEnelVal = 0;
-            for (const [m, v] of Object.entries(mesEnelMap)) {
-                if (v > maxEnelVal) { maxEnelVal = v; picoMesEnel = m; }
-            }
-
-            const nomesMeses = { '01': 'Jan', '02': 'Fev', '03': 'Mar', '04': 'Abr', '05': 'Mai', '06': 'Jun', '07': 'Jul', '08': 'Ago', '09': 'Set', '10': 'Out', '11': 'Nov', '12': 'Dez' };
-            
-            function formatarMesAno(anoMes) {
-                if (!anoMes) return '-';
-                const [ano, mes] = anoMes.split('-');
-                return `${nomesMeses[mes] || mes}/${ano}`;
+            let mesMaxEnel = '-', maxEnelVal = 0;
+            for (let [mes, val] of Object.entries(consumoMensalEnel)) {
+                if (val > maxEnelVal) { maxEnelVal = val; mesMaxEnel = mes; }
             }
 
             const ultimo = medicoes[medicoes.length - 1];
-            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : ultimo;
-            const geradorAtual = ultimo.gerador;
-            const solar03Ultimo = Math.max(0, ultimo.solar03 - penultimo.solar03);
-            const solar55Ultimo = Math.max(0, ultimo.solar55 - penultimo.solar55);
-            const totalSolarDia = solar03Ultimo + solar55Ultimo;
+            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : null;
+            const solarGeradoTotal = penultimo ? Math.max(0, (ultimo.solar03 - penultimo.solar03) + (ultimo.solar55 - penultimo.solar55)) : 0;
 
-            const totalDias = medicoes.length - 1;
-            const mediaAguaDia = totalDias > 0 ? somaAgua / totalDias : 0;
-            const mediaEnelDia = totalDias > 0 ? somaEnel / totalDias : 0;
+            document.getElementById('picoAgua').innerText = `${formatarNumero(maiorAgua, 2)} L (${dataMaiorAgua})`;
+            document.getElementById('barraAgua').style.width = Math.min(100, (maiorAgua / 3000) * 100) + '%';
 
-            document.getElementById('picoAgua').innerText = `${formatarNumero(maiorAgua.valor, 2)} m³ (${maiorAgua.data})`;
-            document.getElementById('picoGas').innerText = `${formatarNumero(maiorGas.valor, 2)} m³ (${maiorGas.data})`;
-            document.getElementById('picoEnel').innerText = `${formatarNumero(maiorEnel.valor, 0)} kWh (${maiorEnel.data})`;
-            document.getElementById('mesMaiorAgua').innerText = `${formatarMesAno(picoMesAgua)} (${formatarNumero(maxAguaVal, 2)} m³)`;
-            document.getElementById('mesMaiorEnel').innerText = `${formatarMesAno(picoMesEnel)} (${formatarNumero(maxEnelVal, 0)} kWh)`;
+            document.getElementById('picoGas').innerText = `${formatarNumero(maiorGas, 2)} m³ (${dataMaiorGas})`;
+            document.getElementById('barraGas').style.width = Math.min(100, (maiorGas / 50) * 100) + '%';
+
+            document.getElementById('picoEnel').innerText = `${formatarNumero(maiorEnel, 0)} kWh (${dataMaiorEnel})`;
+            document.getElementById('barraEnel').style.width = Math.min(100, (maiorEnel / 500) * 100) + '%';
+
+            document.getElementById('mesMaiorAgua').innerText = mesMaxAgua !== '-' ? `${mesMaxAgua} (${formatarNumero(maxAguaVal, 0)} L)` : '-';
+            document.getElementById('mesMaiorEnel').innerText = mesMaxEnel !== '-' ? `${mesMaxEnel} (${formatarNumero(maxEnelVal, 0)} kWh)` : '-';
             document.getElementById('totalRegistros').innerText = `${medicoes.length} dias cadastrados`;
 
-            document.getElementById('autonomiaGerador').innerText = `${geradorAtual}% (Estável)`;
-            document.getElementById('solarGerado').innerText = `${formatarNumero(totalSolarDia, 0)} kWh (Soma 03 + 55)`;
-            document.getElementById('mediaDiaria').innerText = `${formatarNumero(mediaAguaDia, 1)} m³ / ${formatarNumero(mediaEnelDia, 0)} kWh`;
+            document.getElementById('autonomiaGerador').innerText = `${ultimo.gerador}% (Aprox. ${(ultimo.gerador * 1.5).toFixed(0)}h)`;
+            document.getElementById('solarGerado').innerText = `${formatarNumero(solarGeradoTotal, 0)} kWh`;
+
+            // Média diária geral
+            let somaAgua = 0, somaEnel = 0, diasContados = medicoes.length - 1;
+            if (diasContados > 0) {
+                for(let i=1; i<medicoes.length; i++) {
+                    somaAgua += Math.max(0, medicoes[i].agua - medicoes[i-1].agua);
+                    somaEnel += Math.max(0, medicoes[i].enel - medicoes[i-1].enel);
+                }
+                document.getElementById('mediaDiaria').innerText = `${formatarNumero(somaAgua/diasContados, 0)} L / ${formatarNumero(somaEnel/diasContados, 0)} kWh`;
+            } else {
+                document.getElementById('mediaDiaria').innerText = '-';
+            }
         }
 
         function abrirModalNovaLeitura() {
-            document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-plus-circle text-blue-600"></i> Registrar Nova Medição Diária';
             document.getElementById('editId').value = '';
+            document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-plus-circle text-white"></i> Registrar Nova Medição';
             document.getElementById('formLeitura').reset();
             document.getElementById('dataLeitura').valueAsDate = new Date();
-            
+
             const modal = document.getElementById('modalLeitura');
             const content = document.getElementById('modalLeituraContent');
             modal.classList.remove('hidden');
@@ -720,14 +768,13 @@
             content.classList.add('modal-closed');
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 400);
+            }, 300);
         }
 
-        function editarLeitura(id) {
-            const item = medicoes.find(m => m.id == id);
+        async function editarLeitura(id) {
+            const item = medicoes.find(m => m.id === id);
             if (!item) return;
 
-            document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-pen-to-square text-blue-600"></i> Editar Medição';
             document.getElementById('editId').value = item.id;
             document.getElementById('dataLeitura').value = item.data.split('T')[0];
             document.getElementById('aguaLeitura').value = item.agua;
@@ -736,6 +783,8 @@
             document.getElementById('solar03Leitura').value = item.solar03;
             document.getElementById('solar55Leitura').value = item.solar55;
             document.getElementById('geradorLeitura').value = item.gerador;
+
+            document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-pen-to-square text-white"></i> Editar Medição';
 
             const modal = document.getElementById('modalLeitura');
             const content = document.getElementById('modalLeituraContent');
@@ -748,108 +797,93 @@
 
         async function salvarLeitura(event) {
             event.preventDefault();
+
             const id = document.getElementById('editId').value;
-            const novaData = document.getElementById('dataLeitura').value;
-            
-            const novaLeitura = {
-                data: novaData,
-                agua: parseFloat(document.getElementById('aguaLeitura').value) || 0,
-                gas: parseFloat(document.getElementById('gasLeitura').value) || 0,
-                enel: parseFloat(document.getElementById('enelLeitura').value) || 0,
-                solar03: parseFloat(document.getElementById('solar03Leitura').value) || 0,
-                solar55: parseFloat(document.getElementById('solar55Leitura').value) || 0,
-                gerador: parseFloat(document.getElementById('geradorLeitura').value) || 0
+            const dados = {
+                data: document.getElementById('dataLeitura').value,
+                agua: parseFloat(document.getElementById('aguaLeitura').value),
+                gas: parseFloat(document.getElementById('gasLeitura').value),
+                enel: parseInt(document.getElementById('enelLeitura').value),
+                solar03: parseInt(document.getElementById('solar03Leitura').value),
+                solar55: parseInt(document.getElementById('solar55Leitura').value),
+                gerador: parseInt(document.getElementById('geradorLeitura').value)
             };
 
             try {
-                if (!id) {
-                    const { error } = await supabaseClient
-                        .from('medicoes')
-                        .insert([novaLeitura]);
-
-                    if (error) throw error;
-                    mostrarToast('Medição cadastrada com sucesso!');
-                } else {
-                    const { error } = await supabaseClient
-                        .from('medicoes')
-                        .update(novaLeitura)
-                        .eq('id', id);
-
+                if (id) {
+                    const { error } = await supabaseClient.from('medicoes').update(dados).eq('id', id);
                     if (error) throw error;
                     mostrarToast('Medição atualizada com sucesso!');
+                } else {
+                    const { error } = await supabaseClient.from('medicoes').insert([dados]);
+                    if (error) throw error;
+                    mostrarToast('Medição cadastrada com sucesso!');
                 }
 
-                await carregarDados();
                 fecharModal();
+                await carregarDados();
             } catch (err) {
-                console.error("Erro ao salvar no Supabase:", err);
-                mostrarToast('Erro ao salvar no banco de dados!', 'erro');
+                console.error("Erro ao salvar:", err);
+                mostrarToast('Erro ao salvar no Supabase!', 'erro');
             }
         }
 
         async function excluirLeitura(id) {
-            if (confirm('Tem certeza que deseja excluir esta medição?')) {
-                try {
-                    const { error } = await supabaseClient
-                        .from('medicoes')
-                        .delete()
-                        .eq('id', id);
+            if (!confirm('Deseja realmente excluir esta medição?')) return;
 
-                    if (error) throw error;
-
-                    mostrarToast('Medição excluída com sucesso!');
-                    await carregarDados();
-                } catch (err) {
-                    console.error("Erro ao excluir do Supabase:", err);
-                    mostrarToast('Erro ao excluir medição!', 'erro');
-                }
+            try {
+                const { error } = await supabaseClient.from('medicoes').delete().eq('id', id);
+                if (error) throw error;
+                mostrarToast('Medição excluída com sucesso!');
+                await carregarDados();
+            } catch (err) {
+                console.error("Erro ao excluir:", err);
+                mostrarToast('Erro ao excluir registro!', 'erro');
             }
         }
 
         function gerarMensagemWhatsApp() {
             if (medicoes.length === 0) {
-                mostrarToast('Não há medições cadastradas!', 'erro');
+                mostrarToast('Não há dados para gerar relatório!', 'erro');
                 return;
             }
 
             const ultimo = medicoes[medicoes.length - 1];
-            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : ultimo;
-            const dataBR = formatarDataBR(ultimo.data);
+            const penultimo = medicoes.length > 1 ? medicoes[medicoes.length - 2] : null;
 
-            const cAgua = medicoes.length > 1 ? Math.max(0, ultimo.agua - penultimo.agua) : 0;
-            const cGas = medicoes.length > 1 ? Math.max(0, ultimo.gas - penultimo.gas) : 0;
-            const cEnel = medicoes.length > 1 ? Math.max(0, ultimo.enel - penultimo.enel) : 0;
-            const cSolar03 = medicoes.length > 1 ? Math.max(0, ultimo.solar03 - penultimo.solar03) : 0;
-            const cSolar55 = medicoes.length > 1 ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
+            let cAgua = penultimo ? Math.max(0, ultimo.agua - penultimo.agua) : 0;
+            let cGas = penultimo ? Math.max(0, ultimo.gas - penultimo.gas) : 0;
+            let cEnel = penultimo ? Math.max(0, ultimo.enel - penultimo.enel) : 0;
+            let cSolar03 = penultimo ? Math.max(0, ultimo.solar03 - penultimo.solar03) : 0;
+            let cSolar55 = penultimo ? Math.max(0, ultimo.solar55 - penultimo.solar55) : 0;
 
-            const mensagem = `📊 *MEDIÇÃO DIÁRIA DO CONDOMÍNIO*
-📅 *Data:* ${dataBR} (23:00h)
+            const texto = `📊 *RELATÓRIO DE MEDIÇÕES - CONDOMÍNIO*
+📅 Data: *${formatarDataBR(ultimo.data)} (23:00)*
 
 💧 *Água (Chave 01)*
-• Leitura: ${formatarNumero(ultimo.agua, 2)} m³
-• Consumo: ${formatarNumero(cAgua, 2)} m³
+• Leitura: ${formatarNumero(ultimo.agua, 2)}
+• Consumo: *${formatarNumero(cAgua, 2)} L*
 
 🔥 *Gás (Chave 14)*
-• Leitura: ${formatarNumero(ultimo.gas, 2)} m³
-• Consumo: ${formatarNumero(cGas, 2)} m³
+• Leitura: ${formatarNumero(ultimo.gas, 2)}
+• Consumo: *${formatarNumero(cGas, 2)} m³*
 
-⚡ *Energia ENEL (Chave 115)*
-• Leitura: ${formatarNumero(ultimo.enel, 0)} kWh
-• Consumo: ${formatarNumero(cEnel, 0)} kWh
+⚡ *ENEL (Chave 115)*
+• Leitura: ${formatarNumero(ultimo.enel, 0)}
+• Consumo: *${formatarNumero(cEnel, 0)} kWh*
 
 ☀️ *Solar 03 (Chave 06)*
-• Leitura: ${formatarNumero(ultimo.solar03, 0)} kWh
-• Consumo: ${formatarNumero(cSolar03, 0)} kWh
+• Leitura: ${formatarNumero(ultimo.solar03, 0)}
+• Geração: *${formatarNumero(cSolar03, 0)}*
 
 ☀️ *Solar 55 (Chave 06)*
-• Leitura: ${formatarNumero(ultimo.solar55, 0)} kWh
-• Consumo: ${formatarNumero(cSolar55, 0)} kWh
+• Leitura: ${formatarNumero(ultimo.solar55, 0)}
+• Geração: *${formatarNumero(cSolar55, 0)}*
 
-🔋 *Gerador (Chave 142)*
-• Nível: ${formatarNumero(ultimo.gerador, 0)}%`;
+🔋 *Gerador*
+• Nível do Tanque: *${ultimo.gerador}%*`;
 
-            document.getElementById('textoWhatsApp').value = mensagem;
-            
+            document.getElementById('textoWhatsApp').value = texto;
             const modal = document.getElementById('modalWhatsApp');
             const content = document.getElementById('modalWhatsAppContent');
             modal.classList.remove('hidden');
@@ -866,15 +900,14 @@
             content.classList.add('modal-closed');
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 400);
+            }, 300);
         }
 
         function copiarTextoWhatsApp() {
             const textarea = document.getElementById('textoWhatsApp');
             textarea.select();
             document.execCommand('copy');
-            fecharModalWhatsApp();
-            mostrarToast('Mensagem copiada com sucesso!');
+            mostrarToast('Mensagem copiada para a área de transferência!');
         }
     </script>
 </body>
