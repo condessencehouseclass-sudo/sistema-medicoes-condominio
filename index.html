@@ -758,11 +758,15 @@
         }
 
         async function editarLeitura(id) {
-            const item = medicoes.find(m => m.id === id);
-            if (!item) return;
+            // Conversão segura para garantir compatibilidade entre string e número no ID
+            const item = medicoes.find(m => String(m.id) === String(id));
+            if (!item) {
+                mostrarToast('Erro: Medição não encontrada!', 'erro');
+                return;
+            }
 
             document.getElementById('editId').value = item.id;
-            document.getElementById('dataLeitura').value = item.data.split('T')[0];
+            document.getElementById('dataLeitura').value = item.data ? item.data.split('T')[0] : '';
             document.getElementById('aguaLeitura').value = item.agua;
             document.getElementById('gasLeitura').value = item.gas;
             document.getElementById('enelLeitura').value = item.enel;
