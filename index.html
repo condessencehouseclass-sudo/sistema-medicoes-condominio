@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Medições - Condomínio</title>
-    
-    <!-- Ícone apenas na aba do navegador -->
-    <link rel="icon" type="image/png" href="icone.png">
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
@@ -25,8 +21,7 @@
     <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3">
-                <!-- Ícone original em vetor no cabeçalho (sem a imagem) -->
-                <div class="bg-emerald-500 p-2.5 rounded-xl text-slate-900 font-bold text-xl shadow-lg flex items-center justify-center">
+                <div class="bg-emerald-500 p-2.5 rounded-xl text-slate-900 font-bold text-xl shadow-lg">
                     <i class="fa-solid fa-gauge-high"></i>
                 </div>
                 <div>
@@ -261,8 +256,9 @@
             const mesAtualSelecionado = selectMes.value;
             selectMes.innerHTML = '';
 
+            // Extrair meses únicos disponíveis nas medições (formato "YYYY-MM")
             const mesesDisponiveis = [...new Set(medicoes.map(item => item.data.substring(0, 7)))];
-            mesesDisponiveis.sort().reverse();
+            mesesDisponiveis.sort().reverse(); // Mais recente primeiro
 
             if (mesesDisponiveis.length === 0) {
                 selectMes.innerHTML = '<option value="">Nenhum mês</option>';
@@ -283,10 +279,11 @@
                 selectMes.appendChild(option);
             });
 
+            // Se o mês anteriormente selecionado ainda existir, mantém a seleção
             if (mesesDisponiveis.includes(mesAtualSelecionado)) {
                 selectMes.value = mesAtualSelecionado;
             } else {
-                selectMes.value = mesesDisponiveis[0];
+                selectMes.value = mesesDisponiveis[0]; // Padrão para o mais recente
             }
         }
 
@@ -320,9 +317,10 @@
             const mesSelecionado = document.getElementById('filtroMes').value;
             const termoBusca = document.getElementById('filtroData').value.trim().toLowerCase();
 
+            // Filtrar por Mês e por Pesquisa de Dia/Data de forma flexível
             const medicoesFiltradas = medicoes.filter(item => {
-                const dataIso = item.data.split('T')[0];
-                const dataBr = formatarDataBR(item.data);
+                const dataIso = item.data.split('T')[0]; // YYYY-MM-DD
+                const dataBr = formatarDataBR(item.data);   // DD/MM/YYYY
                 const [ano, mes, dia] = dataIso.split('-');
 
                 const correspondeMes = mesSelecionado ? dataIso.startsWith(mesSelecionado) : true;
@@ -330,6 +328,7 @@
                 if (!correspondeMes) return false;
 
                 if (termoBusca) {
+                    // Permite buscar por dia exato ("10"), data completa ("10/10") ou formato ISO
                     const buscaDiaExato = dia === termoBusca || Number(dia) === Number(termoBusca);
                     const buscaTexto = dataBr.toLowerCase().includes(termoBusca) || dataIso.includes(termoBusca);
                     return buscaDiaExato || buscaTexto;
@@ -339,6 +338,7 @@
             });
 
             medicoesFiltradas.forEach((item) => {
+                // Encontrar o índice real no array geral para calcular o consumo em relação ao dia anterior
                 const indexReal = medicoes.findIndex(m => m.id === item.id);
                 const dataBR = formatarDataBR(item.data);
 
@@ -566,7 +566,7 @@
                 `🔥 *Gás (Chave 14):*\n` +
                 `- Leitura: ${formatarNumero(ultimo.gas, 2)}\n` +
                 `- Consumo: *${formatarNumero(cGas, 2)} m³*\n\n` +
-                `⚡ *Energy ENEL (Chave 115):*\n` +
+                `⚡ *Energia ENEL (Chave 115):*\n` +
                 `- Leitura: ${formatarNumero(ultimo.enel, 0)}\n` +
                 `- Consumo: *${formatarNumero(cEnel, 0)} kWh*\n\n` +
                 `☀️ *Painel Solar 03 (Chave 06):*\n` +
@@ -574,7 +574,7 @@
                 `- Consumo: *${formatarNumero(cSolar03, 0)} kWh*\n\n` +
                 `☀️ *Painel Solar 55 (Chave 06):*\n` +
                 `- Leitura: ${formatarNumero(ultimo.solar55, 0)}\n` +
-                `- Consumo: *${formatarNumero(cSolar55, 0)} kWh*\n` +
+                `- Consumo: *${formatarNumero(cSolar55, 0)} kWh*\n\n` +
                 `⚡ *Gerador Diesel (Chave 142):*\n` +
                 `- Nível Atual: *${formatarNumero(ultimo.gerador, 0)}%*\n\n` +
                 `_Relatório enviado automaticamente pelo sistema de controle._`;
