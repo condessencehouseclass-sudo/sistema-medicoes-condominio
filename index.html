@@ -757,12 +757,17 @@
             }, 300);
         }
 
-        async function editarLeitura(id) {
-            const item = medicoes.find(m => m.id === id);
-            if (!item) return;
+      async function editarLeitura(id) {
+            // Garante a comparação correta entre string e número/UUID do ID
+            const item = medicoes.find(m => String(m.id) === String(id));
+            if (!item) {
+                console.error("Medição não encontrada para edição, ID:", id);
+                mostrarToast('Erro ao localizar registro!', 'erro');
+                return;
+            }
 
             document.getElementById('editId').value = item.id;
-            document.getElementById('dataLeitura').value = item.data.split('T')[0];
+            document.getElementById('dataLeitura').value = item.data ? item.data.split('T')[0] : '';
             document.getElementById('aguaLeitura').value = item.agua;
             document.getElementById('gasLeitura').value = item.gas;
             document.getElementById('enelLeitura').value = item.enel;
