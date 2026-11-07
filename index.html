@@ -350,7 +350,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <p class="text-[10px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">ENEL × Produção Solar</p>
-                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Consumo da rede vs. total gerado (03 + 55)</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">(ENEL + Solar 03) − Solar 55</p>
                         </div>
                         <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-indigo-700 dark:text-indigo-400 flex items-center justify-center text-xs"><i class="fa-solid fa-scale-balanced"></i></span>
                     </div>
@@ -928,8 +928,19 @@
                 barra('Solar 55', serie('solar55'), '#6366f1')
             ], 'kWh', 0);
             criar('grafEnelSolar', 'bar', [
-                barra('Consumo ENEL', serie('enel'), '#3b82f6'),
-                barra('Produção Solar (03 + 55)', mensal.map(m => valor(m, 'solar03') + valor(m, 'solar55')), '#10b981')
+                { ...barra('ENEL + Solar 03', mensal.map(m => valor(m, 'enel') + valor(m, 'solar03')), '#3b82f6'), order: 2 },
+                { ...barra('Solar 55', serie('solar55'), '#6366f1'), order: 2 },
+                {
+                    type: 'line',
+                    label: 'Resultado: (ENEL + Solar 03) − Solar 55',
+                    data: mensal.map(m => valor(m, 'enel') + valor(m, 'solar03') - valor(m, 'solar55')),
+                    borderColor: '#f43f5e',
+                    backgroundColor: '#f43f5e',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    order: 1
+                }
             ], 'kWh', 0);
             criar('grafGerador', 'line', [{
                 label: 'Nível médio do tanque',
