@@ -19,6 +19,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     
     <style>
         body { 
@@ -185,7 +187,7 @@
                                 <th class="p-3">Leitura</th>
                                 <th class="p-3 bg-emerald-100/40 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-300">Consumo</th>
                                 <th class="p-3">Leitura</th>
-                                <th class="p-3 bg-indigo-100/40 dark:bg-indigo-950/30 text-indigo-900 dark:text-indigo-300">Consumo</th>
+                                <th class="p-3 bg-indigo-100/40 dark:bg-indigo-950/30 text-indigo-900 dark:text-indigo-300">Produção</th>
                                 <th class="p-3 bg-purple-100/40 dark:bg-purple-950/30 text-purple-900 dark:text-purple-300 text-center">% Nível</th>
                             </tr>
                         </thead>
@@ -292,6 +294,79 @@
                 </div>
 
             </div>
+            <!-- Gráficos comparativos mensais -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+                <div>
+                    <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Comparativo Mensal</h2>
+                    <p id="subGraficos" class="text-xs font-medium text-slate-600 dark:text-slate-300">Total consumido em cada mês</p>
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" id="btnModoTotal" onclick="definirModoGrafico('total')" class="ios-pill px-5 py-2.5 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30">Total do mês</button>
+                    <button type="button" id="btnModoMedia" onclick="definirModoGrafico('media')" class="ios-pill px-5 py-2.5 text-xs font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">Média diária</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="ios-card p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Água por mês</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Comparativo entre meses</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-amber-700 dark:text-amber-400 flex items-center justify-center text-xs"><i class="fa-solid fa-droplet"></i></span>
+                    </div>
+                    <div class="relative h-64"><canvas id="grafAgua"></canvas></div>
+                </div>
+                <div class="ios-card p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Gás por mês</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Comparativo entre meses</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs"><i class="fa-solid fa-fire"></i></span>
+                    </div>
+                    <div class="relative h-64"><canvas id="grafGas"></canvas></div>
+                </div>
+                <div class="ios-card p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-[10px] font-extrabold text-blue-700 dark:text-blue-400 uppercase tracking-wider">ENEL por mês</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Comparativo entre meses</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-blue-700 dark:text-blue-400 flex items-center justify-center text-xs"><i class="fa-solid fa-bolt"></i></span>
+                    </div>
+                    <div class="relative h-64"><canvas id="grafEnel"></canvas></div>
+                </div>
+                <div class="ios-card p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Produção Solar por mês</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Solar 03 × Solar 55</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xs"><i class="fa-solid fa-sun"></i></span>
+                    </div>
+                    <div class="relative h-64"><canvas id="grafSolar"></canvas></div>
+                </div>
+                <div class="ios-card p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-[10px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">ENEL × Produção Solar</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Consumo da rede vs. total gerado (03 + 55)</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-indigo-700 dark:text-indigo-400 flex items-center justify-center text-xs"><i class="fa-solid fa-scale-balanced"></i></span>
+                    </div>
+                    <div class="relative h-64"><canvas id="grafEnelSolar"></canvas></div>
+                </div>
+                <div class="ios-card p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-[10px] font-extrabold text-purple-700 dark:text-purple-400 uppercase tracking-wider">Nível médio do tanque (Gerador)</p>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Média do % de tanque em cada mês</p>
+                        </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-purple-700 dark:text-purple-400 flex items-center justify-center text-xs"><i class="fa-solid fa-gas-pump"></i></span>
+                    </div>
+                    <div class="relative h-64"><canvas id="grafGerador"></canvas></div>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -347,7 +422,7 @@
                     </div>
                     <div class="p-3.5 bg-purple-50/90 dark:bg-purple-950/30 rounded-2xl border border-purple-200 dark:border-purple-900/50">
                         <label class="block text-xs font-bold text-purple-900 dark:text-purple-300 mb-1">Gerador (% Tanque)</label>
-                        <input type="number" min="0" max="100" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
+                        <input type="number" min="0" step="1" id="geradorLeitura" placeholder="Ex: 65" required class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/50 rounded-xl text-sm font-semibold text-slate-950 dark:text-white focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm">
                     </div>
                 </div>
 
@@ -430,6 +505,9 @@
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
                 icone.className = 'fa-solid fa-sun text-sm text-yellow-300';
+            }
+            if (!document.getElementById('containerEstatisticas').classList.contains('hidden')) {
+                renderizarGraficos();
             }
         }
 
@@ -603,6 +681,31 @@
                 `;
                 tbody.appendChild(tr);
             });
+
+            // Linha de média no final do mês
+            const resumoMes = calcularMensal().find(x => x.mes === mesSelecionado);
+            if (resumoMes && resumoMes.dias > 0 && medicoesFiltradas.length > 0) {
+                const d = resumoMes.dias;
+                const gerMedio = resumoMes.gerN > 0 ? resumoMes.gerSoma / resumoMes.gerN : null;
+                const trMedia = document.createElement('tr');
+                trMedia.className = 'bg-blue-100/70 dark:bg-slate-700/60 border-t-2 border-blue-300 dark:border-slate-500 font-extrabold';
+                trMedia.innerHTML = `
+                    <td class="p-3.5 text-center text-slate-900 dark:text-white">Média do mês<br><span class="text-[10px] font-semibold text-slate-600 dark:text-slate-300">${d} dias</span></td>
+                    <td class="p-3.5 text-center text-slate-400">—</td>
+                    <td class="p-3.5 text-center font-mono text-amber-800 dark:text-amber-300">${formatarNumero(resumoMes.agua / d, 2)}</td>
+                    <td class="p-3.5 text-center text-slate-400">—</td>
+                    <td class="p-3.5 text-center font-mono text-slate-900 dark:text-slate-100">${formatarNumero(resumoMes.gas / d, 2)}</td>
+                    <td class="p-3.5 text-center text-slate-400">—</td>
+                    <td class="p-3.5 text-center font-mono text-blue-800 dark:text-blue-300">${formatarNumero(resumoMes.enel / d, 0)}</td>
+                    <td class="p-3.5 text-center text-slate-400">—</td>
+                    <td class="p-3.5 text-center font-mono text-emerald-800 dark:text-emerald-300">${formatarNumero(resumoMes.solar03 / d, 0)}</td>
+                    <td class="p-3.5 text-center text-slate-400">—</td>
+                    <td class="p-3.5 text-center font-mono text-indigo-800 dark:text-indigo-300">${formatarNumero(resumoMes.solar55 / d, 0)}</td>
+                    <td class="p-3.5 text-center font-mono text-purple-800 dark:text-purple-300">${gerMedio !== null ? formatarNumero(gerMedio, 0) + '%' : '-'}</td>
+                    <td class="p-3.5"></td>
+                `;
+                tbody.appendChild(trMedia);
+            }
         }
 
         function atualizarResumoCards() {
@@ -730,6 +833,114 @@
             } else {
                 document.getElementById('mediaDiaria').innerText = '-';
             }
+
+            renderizarGraficos();
+        }
+
+        // ===== Resumo mensal (usado na linha de média e nos gráficos) =====
+        function calcularMensal() {
+            const mapa = {};
+            medicoes.forEach((atual, i) => {
+                const mes = atual.data.substring(0, 7);
+                if (!mapa[mes]) mapa[mes] = { mes, dias: 0, agua: 0, gas: 0, enel: 0, solar03: 0, solar55: 0, gerSoma: 0, gerN: 0 };
+                const m = mapa[mes];
+                if (atual.gerador !== null && atual.gerador !== undefined) {
+                    m.gerSoma += Number(atual.gerador);
+                    m.gerN++;
+                }
+                if (i > 0) {
+                    const ant = medicoes[i - 1];
+                    m.dias++;
+                    m.agua += Math.max(0, atual.agua - ant.agua);
+                    m.gas += Math.max(0, atual.gas - ant.gas);
+                    m.enel += Math.max(0, atual.enel - ant.enel);
+                    m.solar03 += Math.max(0, atual.solar03 - ant.solar03);
+                    m.solar55 += Math.max(0, atual.solar55 - ant.solar55);
+                }
+            });
+            return Object.values(mapa).sort((a, b) => a.mes.localeCompare(b.mes));
+        }
+
+        // ===== Gráficos comparativos =====
+        let graficos = {};
+        let modoGrafico = 'total';
+        const mesesCurtos = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+        function definirModoGrafico(modo) {
+            modoGrafico = modo;
+            const ativo = 'ios-pill px-5 py-2.5 text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/30';
+            const inativo = 'ios-pill px-5 py-2.5 text-xs font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700';
+            document.getElementById('btnModoTotal').className = modo === 'total' ? ativo : inativo;
+            document.getElementById('btnModoMedia').className = modo === 'media' ? ativo : inativo;
+            document.getElementById('subGraficos').innerText = modo === 'total' ? 'Total consumido em cada mês' : 'Média diária de cada mês';
+            renderizarGraficos();
+        }
+
+        function renderizarGraficos() {
+            if (typeof Chart === 'undefined') return;
+            const mensal = calcularMensal();
+            if (mensal.length === 0) return;
+
+            const escuro = document.documentElement.classList.contains('dark');
+            const corTexto = escuro ? '#cbd5e1' : '#334155';
+            const corGrade = escuro ? 'rgba(148,163,184,0.15)' : 'rgba(100,116,139,0.18)';
+            const labels = mensal.map(m => `${mesesCurtos[Number(m.mes.slice(5, 7)) - 1]}/${m.mes.slice(2, 4)}`);
+            const valor = (m, k) => modoGrafico === 'media' ? (m.dias ? m[k] / m.dias : 0) : m[k];
+            const serie = (k) => mensal.map(m => valor(m, k));
+            const sufixo = modoGrafico === 'media' ? '/dia' : '';
+
+            function criar(id, tipo, datasets, unidade, decimais, usarSufixo = true) {
+                const canvas = document.getElementById(id);
+                if (!canvas) return;
+                if (graficos[id]) graficos[id].destroy();
+                const suf = usarSufixo ? sufixo : '';
+                graficos[id] = new Chart(canvas, {
+                    type: tipo,
+                    data: { labels, datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { display: datasets.length > 1, labels: { color: corTexto, boxWidth: 12, usePointStyle: true } },
+                            tooltip: {
+                                callbacks: {
+                                    label: c => `${c.dataset.label}: ${formatarNumero(c.parsed.y, decimais)} ${unidade}${suf}`,
+                                    afterBody: itens => `${mensal[itens[0].dataIndex].dias} dias medidos`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: corTexto }, grid: { display: false } },
+                            y: { beginAtZero: true, ticks: { color: corTexto }, grid: { color: corGrade } }
+                        }
+                    }
+                });
+            }
+
+            const barra = (label, dados, cor) => ({ label, data: dados, backgroundColor: cor, borderRadius: 8, maxBarThickness: 46 });
+
+            criar('grafAgua', 'bar', [barra('Água', serie('agua'), '#f59e0b')], 'L', 2);
+            criar('grafGas', 'bar', [barra('Gás', serie('gas'), '#64748b')], 'm³', 2);
+            criar('grafEnel', 'bar', [barra('ENEL', serie('enel'), '#3b82f6')], 'kWh', 0);
+            criar('grafSolar', 'bar', [
+                barra('Solar 03', serie('solar03'), '#10b981'),
+                barra('Solar 55', serie('solar55'), '#6366f1')
+            ], 'kWh', 0);
+            criar('grafEnelSolar', 'bar', [
+                barra('Consumo ENEL', serie('enel'), '#3b82f6'),
+                barra('Produção Solar (03 + 55)', mensal.map(m => valor(m, 'solar03') + valor(m, 'solar55')), '#10b981')
+            ], 'kWh', 0);
+            criar('grafGerador', 'line', [{
+                label: 'Nível médio do tanque',
+                data: mensal.map(m => m.gerN ? m.gerSoma / m.gerN : 0),
+                borderColor: '#a855f7',
+                backgroundColor: 'rgba(168,85,247,0.2)',
+                fill: true,
+                tension: 0.35,
+                pointRadius: 4,
+                pointBackgroundColor: '#a855f7'
+            }], '%', 0, false);
         }
 
         function abrirModalNovaLeitura() {
